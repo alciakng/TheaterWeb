@@ -8,6 +8,14 @@
   "dependencies": {
     "express": "3.2.6",
     "jade": "*",
-    "swig":"*"
+    "swig":"*",
+    "iconv":"*",
+    "fs":"*",
+    "passport-local":"*",
+    "passport":"*",
+    "connect-flash":"*",
+    "passport-facebook":"*",
+    "passport-twitter":"*",
+    "paypal-rest-sdk":"*"
   }
 }

@@ -12,7 +12,10 @@ global.config = function(name) {
 var express = require('express')
   , http = require('http')
   , path = require('path')
-  , swig = require('swig');
+  , passport = require('passport')
+  , flash = require('connect-flash')
+  , swig = require('swig')
+  , paypal = require('paypal-rest-sdk');
 
 var app = express();
 
@@ -21,21 +24,33 @@ app.set('port', process.env.PORT || 3000);
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
+
+app.configure(function() {
+	app.use(express.cookieParser('keyboard cat'));
+	app.use(express.session({ cookie: { maxAge: 36000000}}));
+	app.use(flash());
+	app.use(passport.initialize());
+	app.use(passport.session());
+	app.use(express.favicon());
+	app.use(express.logger('dev'));
+	app.use(express.bodyParser());
+	app.use(express.methodOverride());
+	app.use(express.static(path.join(__dirname, 'public')));
+});
+
+//passport set
+config('passport.js')(passport);
+//paypal set
+config('paypal.js')(paypal);
+//router set
+config('router.js')(app,passport);
+
+
 
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
-
-
-
-config('router.js')(app);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
