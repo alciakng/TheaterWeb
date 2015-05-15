@@ -3,6 +3,8 @@
  */
 var dbConfig = config('dbconfig.js');
 var oracledb = require('oracledb');
+//get parameter를 얻어내기 위한 모듈
+var url = require('url');
 
 
 //show index page;
@@ -18,7 +20,7 @@ exports.getTimeOfMovie = function(req,res){
 	
 	console.log(moviecode);
 	console.log(date);
-	var sql = "select * from time where moviecode =:moviecode and moviedate=to_date(:moviedate,'yy/mm/dd') order by SCREENCODE";
+	var sql = "select * from time where moviecode =:moviecode and moviedate=to_date(:moviedate,'yy-mm-dd') order by SCREENCODE";
 	
 	oracledb.getConnection(dbConfig,
 			function(err,connection){
@@ -76,7 +78,7 @@ exports.searchMovie = function(req,res){
 							console.log(err.message);
 							return;
 						}
-						res.render('listOfMovie',{
+						res.render('movie/listOfMovie',{
 							movies : result.rows
 						}); 
 			    	});
@@ -111,7 +113,7 @@ exports.showListOfMovie = function(req,res){
 							console.log(err.message);
 							return;
 						}
-						res.render('listOfMovie',{
+						res.render('movie/listOfMovie',{
 							movies : result.rows
 						}); 
 			    	});
@@ -140,7 +142,7 @@ exports.book1_init = function(req,res){
 						console.log(err.message);
 						return;
 					}
-					res.render('book1-init',{
+					res.render('book/book1-init',{
 						movies : result.rows
 					}); 
 			     });
@@ -150,6 +152,10 @@ exports.book1_init = function(req,res){
 //reserve seat;
 exports.book2_seat = function(req,res){
 	var screen = req.param('screen');
+	//get parameters
+	var url_parts = url.parse(req.url, true);
+	var prevData = url_parts.query;
+	console.log(prevData);
 	
 	oracledb.getConnection(dbConfig,
 			function(err,connection){
@@ -165,7 +171,7 @@ exports.book2_seat = function(req,res){
 			    {outFormat: oracledb.OBJECT}
 			    ,
 				 function(err,result){
-			    	console.log(result);
+			    	//console.log(result);
 					if(err){
 						console.log(err.message);
 						return;
@@ -187,9 +193,10 @@ exports.book2_seat = function(req,res){
 						}
 					});
 					mappedArr.push(tempArr);
-					console.log(mappedArr);
-					res.render('book2-seat',{
-						seatRows : mappedArr
+					//console.log(mappedArr);
+					res.render('book/book2-seat',{
+						seatRows : mappedArr,
+						prevData : prevData
 					}); 
 			     });
 	          });
@@ -197,9 +204,9 @@ exports.book2_seat = function(req,res){
 
 //buy a ticket
 exports.book3_buy = function(req,res){
-	res.render('book3-buy.html');
+	res.render('book/book3-buy.html');
 };
 
 exports.book4_final = function(req,res){
-	res.render('book4-final'.html)
+	res.render('book/book4-final')
 } 

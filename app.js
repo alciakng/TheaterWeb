@@ -15,7 +15,8 @@ var express = require('express')
   , passport = require('passport')
   , flash = require('connect-flash')
   , swig = require('swig')
-  , paypal = require('paypal-rest-sdk');
+  , paypal = require('paypal-rest-sdk')
+  , viewHelper = require('view-helpers')
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.configure(function() {
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
 	app.use(express.static(path.join(__dirname, 'public')));
+	app.use(viewHelper());
 });
 
 //passport set

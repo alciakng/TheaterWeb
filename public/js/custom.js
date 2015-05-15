@@ -5,7 +5,7 @@
     //Modernizr touch detect
     Modernizr.load({
             test: Modernizr.touch,
-            yep :['css/touch.css?v=1'],
+            yep :['/css/touch.css?v=1'],
             nope: [] 
     });
 
@@ -70,6 +70,17 @@
 
         setTimeout(function(){
             $('.overlay').removeClass('close');}, 500);
+    });
+    
+    //5. Dropdown for authorize button
+    $('.auth__show').click(function (e){
+        e.preventDefault();
+        $('.auth__function').toggleClass('open-function')
+    })
+
+    $('.btn--singin').click(function (e){
+        e.preventDefault();
+        $('.auth__function').toggleClass('open-function')
     });
 
 function init_Elements () {
@@ -376,17 +387,21 @@ function init_BookingOne() {
     
     //0. Init vars for order data
     // var for booking;
-                var movie = $('.choosen-movie'),
-                    date = $('.choosen-date'),
-                    time = $('.choosen-time'),
-                    screen = $('.choosen-screen');
+                var movie = $('.choosen_movie'),
+                	moviecode = $('.choosen_moviecode'),
+                    date = $('.choosen_date'),
+                    time = $('.choosen_time'),
+                    screen = $('.choosen_screen'),
+                    count = $('.choosen_count');
     
     //1.만약 세션에 무비가 설정되있으면 하는 동작.
     $("#"+sessionStorage.getItem("movie")).addClass('film--choosed');
     var chooseFilm = $("#"+sessionStorage.getItem("movie")).parent().attr('data-film');
+    var chooseFilmCode = $("#"+sessionStorage.getItem("movie")).parent().attr('data-film-code')
     $('.choose-indector--film').find('.choosen-area').text(chooseFilm);
     //data element set
     movie.val(chooseFilm);
+    moviecode.val(chooseFilmCode);
 
    
 	//2. Buttons for choose order method
@@ -490,10 +505,10 @@ function init_BookingOne() {
                   showOtherMonths: true,
                   selectOtherMonths: true,
                   showAnim:"fade",
-                  dateFormat:'yy/mm/dd',
+                  dateFormat:'yy-mm-dd',
                   //날짜 선택시 날짜에 해당하는 상영관과 시간정보를 ajax방식으로 가져온다.
                   onSelect: function(dateText) {
-                	  $.get('/movie/time',{moviecode:sessionStorage.getItem('movie'),date:dateText},function(data){
+                	  $.get('/movie/time',{moviecode:'m1',date:dateText},function(data){
                 		  $('.time-select--wide').empty();
                 		  
                       		data.forEach(function(parent_element,parent_index,parent_array){
@@ -527,11 +542,14 @@ function init_BookingOne() {
                      $(this).addClass('film--choosed');
 
                      //data element init
-                     var chooseFilm = $(this).parent().attr('data-film');
-                     $('.choose-indector--film').find('.choosen-area').text(chooseFilm);
+                     var choosenFilmCode = $(this).parent().attr('data-film-code');
+                     var choosenFilm = $(this).parent().attr('data-film');
+                   
+                     $('.choose-indector--film').find('.choosen-area').text(choosenFilm);
 
                      //data element set
-                     movie.val(chooseFilm);
+                     movie.val(choosenFilm);
+                     moviecode.val(choosenFilmCode);
                 });
      
 
@@ -543,18 +561,19 @@ function init_BookingOne() {
                     $(this).addClass('active');
 
                     //data element init
-                    var chooseTime = $(this).attr('data-time');
-                    var chooseScreen = $(this).attr('data-screen');
-                    var timeCount = $(this).attr('data-moviecount');
-                     $('.choose-indector--time').find('.choosen-area').text(chooseTime);
+                    var choosenTime = $(this).attr('data-time');
+                    var choosenScreen = $(this).attr('data-screen');
+                    var choosenCount = $(this).attr('data-moviecount');
+                 
+                     $('.choose-indector--time').find('.choosen-area').text(choosenScreen+"관, "+choosenTime);
 
                     //data element init
                     var chooseCinema = $(this).parent().parent().find('.time-select__place').text(); 
-
+                    
                     //data element set
-                    time.val(chooseTime);
-                    cinema.val(chooseCinema);
-        
+                    time.val(choosenTime);
+                    screen.val(choosenScreen);
+                    count.val(choosenCount);
                 });
 
                 // choose (change) city and date for film
@@ -576,7 +595,7 @@ function init_BookingOne() {
                 // --- Step for data - serialize and send to next page---//
                 $('.booking-form').submit( function () {
                     var bookData = $(this).serialize();
-                    $.get( $(this).attr('action'),bookData);
+                    $.get($(this).attr('action'),bookData);
                 })
 
     //7. Visibility block on page control
@@ -585,7 +604,7 @@ function init_BookingOne() {
                     e.preventDefault();
                     $(this).toggleClass('hide-content');
                     $('.choose-film').slideToggle(400);
-                })
+                });
 
                 $('.choose-indector--time').click(function (e) {
                     e.preventDefault();
@@ -608,12 +627,12 @@ function init_BookingTwo () {
 
     //2. Init vars for order data
     // var for booking;
-                var numberTicket = $('.choosen-number'),
-                    sumTicket = $('.choosen-cost'),
-                    cheapTicket = $('.choosen-number--cheap'),
-                    middleTicket = $('.choosen-number--middle'),
-                    expansiveTicket = $('.choosen-number--expansive'),
-                    sits = $('.choosen-sits');
+                var numberTicket = $('.choosen_number'),
+                    sumTicket = $('.choosen_cost'),
+                    cheapTicket = $('.choosen_number__cheap'),
+                    middleTicket = $('.choosen_number__middle'),
+                    expansiveTicket = $('.choosen_number__expansive'),
+                    sits = $('.choosen_sits');
 
     //3. Choose sits (and count price for them)
     			//users choose sits
@@ -641,6 +660,7 @@ function init_BookingTwo () {
                                 case '10':
                                   sum += 10;
                                   cheap += 1;
+     
                                   break;
                                 case '20':
                                   sum += 20;
@@ -691,13 +711,12 @@ function init_BookingTwo () {
                     expansiveTicket.val(expansive );
 
 
-                    //data element init
+                    //좌석정보 변수에 담기
                     var chooseSits = '';
                     $('.choosen-place').each( function () {
-                        chooseSits += ','+ $(this).text();
+                        chooseSits +=$(this).text()+' ';
                     });
 
-                    //data element set 
                     sits.val(chooseSits);
                 });
 
@@ -707,13 +726,11 @@ function init_BookingTwo () {
                 var prevDate = url.substr(url.indexOf('?')+1);
 
                 //Serialize, add new data and send to next page
-                $('.booking-form').submit(function (e) {
-                    e.preventDefault(); 
+                $('.booking-form').submit(function () {
                     var bookData = $(this).serialize();
-
-                    var fullData = prevDate + '&' + bookData
-               
-                    $.get($(this).attr('action'), fullData);
+                    var fullData = prevDate + '&' + bookData;
+                 
+                   $.get($(this).attr('action'), fullData);
                 });
 
                 $('.top-scroll').parent().find('.top-scroll').remove();
@@ -1077,9 +1094,7 @@ function init_MovieList () {
                         sessionStorage.setItem("genre",$('select[name="genre"] option:selected').val());
                    
                         $('#sortingByParams').submit();
-                        
-                        
-                        
+                       
                     }
                 });
 
@@ -1153,10 +1168,6 @@ function init_MovieList () {
                     $('.time-select__item').removeClass('active');
                     $(this).addClass('active');
                 });
-    
-                
-                
-                
 }
 
 function init_MoviePage () {

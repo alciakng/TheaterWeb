@@ -1,0 +1,98 @@
+  {% extends '../layout/default.html' %}
+  {% block content %}
+        <!-- Main content -->
+        <section class="container">
+            <div class="order-container">
+                <div class="order">
+                  
+                    <p class="order__title">Book a ticket <br><span class="order__descript">and have fun movie time</span></p>
+                   
+                </div>
+            </div>
+                <div class="order-step-area">
+                    <div class="order-step first--step">1. What &amp; Where &amp; When</div>
+                </div>
+
+            <h2 class="page-heading heading--outcontainer">Choose a movie</h2>
+        </section>
+        
+        <div class="choose-film">
+            <div class="swiper-container">
+              <div class="swiper-wrapper">
+                  <!--First Slide-->
+                  
+                  {% for movie in movies %}
+                  <div class="swiper-slide" data-film='{{movie.NAME}}' data-film-code ='{{movie.MOVIECODE}}'> 
+                        <div class="film-images" id="{{movie.MOVIECODE}}">
+                            <img alt='' src="/image/{{movie.IMAGE}}">
+                        </div>
+                        <p class="choose-film__title">{{movie.NAME}}</p>
+                  </div>
+                  {% endfor %}
+                  
+                 
+              </div>
+            </div>
+        </div>
+
+        <section class="container">
+            <div class="col-sm-12">
+                <div class="choose-indector choose-indector--film">
+                    <strong>Choosen: </strong><span class="choosen-area"></span>
+                </div>
+
+                <h2 class="page-heading">City &amp; Date</h2>
+
+                <div class="choose-container choose-container--short">
+                  
+
+                    <div class="datepicker">
+                      <span class="datepicker__marker"><i class="fa fa-calendar"></i>Date</span>
+                      <input type="text" id="datepicker" value='03/10/2014' class="datepicker__input">
+                    </div>
+                    
+                   
+                </div>
+
+                <h2 class="page-heading">Pick time</h2>
+
+                <div class="time-select time-select--wide">
+                       
+                    </div>
+
+                <div class="choose-indector choose-indector--time">
+                    <strong>Choosen: </strong><span class="choosen-area"></span>
+                </div>
+            </div>
+
+        </section>
+
+        <div class="clearfix"></div>
+
+        <form id='film-and-time' class="booking-form" method='get' action='/book/seat'>
+            <input type='text' name='choosen_moviecode' class="choosen_moviecode">
+            <input type='text' name='choosen_movie' class='choosen_movie'>
+            <input type='text' name='choosen_date' class="choosen_date">
+            <input type='text' name='choosen_screen' class="choosen_screen">
+            <input type='text' name='choosen_time' class="choosen_time">
+            <input type='text' name='choosen_count' class="choosen_count">
+
+            <div class="booking-pagination">
+                    <button type="submit" class="booking-pagination__next">
+                        <span class="arrow__text arrow--next">다음 단계</span>
+                        <span class="arrow__info">좌석 선택</span>
+            </div>
+			
+        </form>
+        
+        <div class="clearfix"></div>
+
+    {% endblock %}
+
+{% block customScript %}	
+		<script type="text/javascript">
+            $(document).ready(function() {
+                init_BookingOne();
+            });
+		</script>
+{% endblock %}

@@ -16,6 +16,7 @@
     "connect-flash":"*",
     "passport-facebook":"*",
     "passport-twitter":"*",
-    "paypal-rest-sdk":"*"
+    "paypal-rest-sdk":"*",
+    "view-helpers":"*"
   }
 }

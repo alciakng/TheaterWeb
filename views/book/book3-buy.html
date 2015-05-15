@@ -1,0 +1,80 @@
+
+
+
+
+
+{% extends '../layout/default.html' %}
+{% block content %}
+        <section class="container">
+        
+         <div class="order-container">
+                <div class="order">
+                   
+                    <p class="order__title">Book a ticket <br><span class="order__descript">and have fun movie time</span></p>
+                   
+                </div>
+            </div>
+               
+          
+                <div class="order-step-area">
+                    <div class="order-step first--step order-step--disable ">1. 영화, 상영관, 시간 선택</div>
+                    <div class="order-step second--step order-step--disable">2. 좌석선택</div>
+                    <div class="order-step third--step">3. 예약정보 확인</div>
+                </div>
+
+            <div class="col-sm-12">
+                <div class="checkout-wrapper">
+                    <h2 class="page-heading">price</h2>
+                     <ul class="book-result">
+                        <li class="book-result__item">영화 : <span class="book-result__count booking-ticket">{{reservationInfo.choosen_movie}}</span></li>
+                        <li class="book-result__item">상영관 : <span class="book-result__count booking-price">{{reservationInfo.choosen_screen}}</span></li>
+                           <li class="book-result__item">날짜 : <span class="book-result__count booking-cost">{{reservationInfo.choosen_date}}</span></li>
+                        <li class="book-result__item">시간 : <span class="book-result__count booking-cost">{{reservationInfo.choosen_time}}</span></li>
+                    </ul>
+                    <br>
+                    <ul class="book-result">
+                    	{% if reservationInfo.choosen_number__cheap != 0 %}
+                        <li class="book-result__item">10$ 좌석 수 <span class="book-result__count booking-ticket">{{reservationInfo.choosen_number__cheap}}</span></li>
+                        {% endif %}
+                        {% if reservationInfo.choosen_number__middle != 0 %}
+                        <li class="book-result__item">20$ 좌석 수 <span class="book-result__count booking-ticket">{{reservationInfo.choosen_number__middle}}</span></li>
+                        {% endif %}
+                        {% if reservationInfo.choosen_number__expansive != 0 %}
+                        <li class="book-result__item">30$ 좌석 수 <span class="book-result__count booking-ticket">{{reservationInfo.choosen_number__expansive}}</span></li>
+                        {% endif %}
+                        <li class="book-result__item">총 요금 : <span class="book-result__count booking-cost">{{reservationInfo.amount+'$'}}</span></li>
+                    </ul>
+           
+                
+                </div>
+                
+                {% if payment.payer.payment_method =='paypal' %}
+					{% for link in payment.links %}
+						{% if link.method == 'REDIRECT' %}
+							{% set redirectUrl = link.href %}
+						{% endif %}
+					{% endfor %}
+				{% endif %}
+                
+                <div class="order">
+                    <a href="{{redirectUrl}}" class="btn btn-md btn--warning btn--wide">구매하기</a>
+                </div>
+
+            </div>
+
+        </section>
+        
+
+        <div class="clearfix"></div>
+
+        <div class="booking-pagination">
+                <a href="javascript: history.go(-1)" class="booking-pagination__prev">
+                    <p class="arrow__text arrow--prev">이전 단계</p>
+                    <span class="arrow__info">좌석선택</span> 
+                </a>
+          
+        </div>
+        
+        <div class="clearfix"></div>
+        
+{% endblock %}

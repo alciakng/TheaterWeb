@@ -14,7 +14,6 @@ var facebook = require('./passport/facebook');
 var twitter = require('./passport/twitter');
 
 
-
 //passport configuration
 module.exports = function(passport){
 
@@ -30,6 +29,7 @@ module.exports = function(passport){
 	 });
 	
 	  // use these strategies
+	  //로컬을 쓸 때 앞에 별칭을 붙여 router.js에서 불러올 때 별칭으로 사용한다.
 	  passport.use('local-login',localLogin);
 	  passport.use('local-signup',localSignUp);
 	  passport.use(facebook);
