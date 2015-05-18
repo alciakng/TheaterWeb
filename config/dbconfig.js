@@ -1,8 +1,9 @@
 var oracledb = require('oracledb');
- 
+
 module.exports = {
-		  user          : "JH",
-		  password      : "JH",
-		  connectString : "localhost/XE"
+		  user          : envConfig.dbConfig.user,
+		  password      : envConfig.dbConfig.password,
+		  connectString : envConfig.dbConfig.connectString
 };
+
 

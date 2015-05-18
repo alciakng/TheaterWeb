@@ -8,6 +8,8 @@ global.controllers = function(name) {
 global.config = function(name) {
     return require(__dirname + '/config/' + name);
 }
+//project 전체 configuration 변수들을 모아 놓은 envConfig를 global variable로 선언한다.
+global.envConfig = config('envConfig.json');
 
 var express = require('express')
   , http = require('http')
@@ -46,6 +48,8 @@ config('passport.js')(passport);
 config('paypal.js')(paypal);
 //router set
 config('router.js')(app,passport);
+//db set
+config('dbconfig');
 
 
 

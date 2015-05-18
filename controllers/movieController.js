@@ -20,7 +20,7 @@ exports.getTimeOfMovie = function(req,res){
 	
 	console.log(moviecode);
 	console.log(date);
-	var sql = "select * from time where moviecode =:moviecode and moviedate=to_date(:moviedate,'yy-mm-dd') order by SCREENCODE";
+	var sql = "select * from time where moviecode =:moviecode and moviedate=to_date(:moviedate,'yyyy/mm/dd') order by SCREENCODE";
 	
 	oracledb.getConnection(dbConfig,
 			function(err,connection){
@@ -81,6 +81,7 @@ exports.searchMovie = function(req,res){
 						res.render('movie/listOfMovie',{
 							movies : result.rows
 						}); 
+						
 			    	});
 	          });
 }
@@ -98,7 +99,7 @@ exports.showListOfMovie = function(req,res){
 	console.log(genre);
 	console.log(orderBy);
 	
-	var sql = "select NAME,GENRE,RUNNINGTIME,DIRECTOR,RATING,COMPANY,COUNTRY,ACTORS,IMAGE,SUMMARY,to_char(OPENDATE, 'yy/mm/dd') as OPENDATE,MOVIECODE from movie where genre like :genre order by :orderBy DESC"
+	var select_movie_list = "select NAME,GENRE,RUNNINGTIME,DIRECTOR,RATING,COMPANY,COUNTRY,ACTORS,IMAGE,SUMMARY,to_char(OPENDATE, 'yy/mm/dd') as OPENDATE,MOVIECODE from movie where genre like :genre order by :orderBy DESC"
 	
 	oracledb.getConnection(dbConfig,
 			function(err,connection){
@@ -106,7 +107,7 @@ exports.showListOfMovie = function(req,res){
 				      console.error(err.message);
 				      return;
 				 }
-				 connection.execute(sql,[genre,orderBy],{outFormat: oracledb.OBJECT},
+				 connection.execute(select_movie_list,[genre,orderBy],{outFormat: oracledb.OBJECT},
 					function(err,result){
 				    	console.log(result);
 						if(err){
@@ -116,6 +117,14 @@ exports.showListOfMovie = function(req,res){
 						res.render('movie/listOfMovie',{
 							movies : result.rows
 						}); 
+						
+						connection.release(function(err){
+							if(err){
+								console.log(err.message);
+								return;
+							}
+						});
+						
 			    	});
 	          });
 }
@@ -145,17 +154,29 @@ exports.book1_init = function(req,res){
 					res.render('book/book1-init',{
 						movies : result.rows
 					}); 
+					
+					connection.release(function(err){
+						if(err){
+							console.log(err.message);
+							return;
+						}
+					});
+					
 			     });
 	          });
 };
 
 //reserve seat;
 exports.book2_seat = function(req,res){
-	var screen = req.param('screen');
+	
 	//get parameters
 	var url_parts = url.parse(req.url, true);
 	var prevData = url_parts.query;
 	console.log(prevData);
+	
+	
+	
+	var seat_select_sql ="select * from SEAT ,PERFORMANCE_SEAT where SEAT.SEATCODE=PERFORMANCE_SEAT.SEATCODE and SEAT.SCREENCODE=:1 order by SEAT.SEATROW,LENGTH(SEAT.SEATCOL),SEAT.SEATCOL";
 	
 	oracledb.getConnection(dbConfig,
 			function(err,connection){
@@ -165,22 +186,23 @@ exports.book2_seat = function(req,res){
 				 }
 				 //스크린코드가 :screencode이고 seatrow와 seatcol에 대해 오름차순으로 정렬하여 출력하는 쿼리.
 				 connection.execute(
-				 "select * from seat where screencode=:screencode order by SEATROW,LENGTH(SEATCOL),SEATCOL",
-			    [screen]
+				 seat_select_sql,
+			    [prevData.choosen_screen]
 			    ,
 			    {outFormat: oracledb.OBJECT}
 			    ,
 				 function(err,result){
 			    	//console.log(result);
 					if(err){
+						
 						console.log(err.message);
 						return;
 					}
+					
 					//result array mapping
 					var mappedArr=new Array();
 					var tempArr=new Array();
 					if(result.rows.length!=0) var seatrow =result.rows[0].SEATROW;
-					
 					
 					result.rows.forEach(function(element,index,array){
 						
@@ -193,11 +215,21 @@ exports.book2_seat = function(req,res){
 						}
 					});
 					mappedArr.push(tempArr);
-					//console.log(mappedArr);
+					console.log(mappedArr);
+					
 					res.render('book/book2-seat',{
 						seatRows : mappedArr,
 						prevData : prevData
 					}); 
+					
+					
+					connection.release(function(err){
+						if(err){
+							console.log(err.message);
+							return;
+						}
+					});
+					
 			     });
 	          });
 };

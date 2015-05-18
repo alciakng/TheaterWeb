@@ -51,7 +51,7 @@ module.exports = function(app,passport){
 		//로그인에 실패했을 때
 		app.get('/failLogin',userController.failLogin);
 		//facebook-auth
-		app.get('/auth/facebook', passport.authenticate('facebook',{ scope: [ 'email' ] }));
+		app.get('/auth/facebook', passport.authenticate('facebook',{scope:['email','user_birthday'], display: 'page' }));
 		//facebook-auth-callback
 		app.get('/auth/facebook/callback',
 		    passport.authenticate('facebook', { successRedirect: '/',

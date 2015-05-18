@@ -41,7 +41,7 @@ module.exports = new LocalStrategy({
     						if(user.rows[0].PW!=password){
     			    	    	 return done(null,false,req.flash('loginMessage', '비밀번호를 잘못 입력하셨습니다.'))
     			    	    }
-    						return done(null,user,req.flash('loginMessage',user.rows[0].NAME+'님 환영합니다.'));
+    						return done(null,user.rows[0],req.flash('loginMessage',user.rows[0].NAME+'님 환영합니다.'));
     			    	});
     	          });
     	/*

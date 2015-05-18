@@ -35,4 +35,4 @@ module.exports = function(passport){
 	  passport.use(facebook);
 	  passport.use(twitter);
 	
-  };
+};

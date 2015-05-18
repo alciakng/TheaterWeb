@@ -33,16 +33,8 @@
                     </ul>
                     <br>
                     <ul class="book-result">
-                    	{% if reservationInfo.choosen_number__cheap != 0 %}
-                        <li class="book-result__item">10$ 좌석 수 <span class="book-result__count booking-ticket">{{reservationInfo.choosen_number__cheap}}</span></li>
-                        {% endif %}
-                        {% if reservationInfo.choosen_number__middle != 0 %}
-                        <li class="book-result__item">20$ 좌석 수 <span class="book-result__count booking-ticket">{{reservationInfo.choosen_number__middle}}</span></li>
-                        {% endif %}
-                        {% if reservationInfo.choosen_number__expansive != 0 %}
-                        <li class="book-result__item">30$ 좌석 수 <span class="book-result__count booking-ticket">{{reservationInfo.choosen_number__expansive}}</span></li>
-                        {% endif %}
-                        <li class="book-result__item">총 요금 : <span class="book-result__count booking-cost">{{reservationInfo.amount+'$'}}</span></li>
+                        <li class="book-result__item">좌석 수 : <span class="book-result__count booking-ticket">{{reservationInfo.choosen_number}}</span></li>        	
+                        <li class="book-result__item">총 요금 : <span class="book-result__count booking-cost">{{reservationInfo.amount+'원'}}</span></li>
                     </ul>
            
                 

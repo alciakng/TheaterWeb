@@ -505,10 +505,10 @@ function init_BookingOne() {
                   showOtherMonths: true,
                   selectOtherMonths: true,
                   showAnim:"fade",
-                  dateFormat:'yy-mm-dd',
+                  dateFormat:'yy/mm/dd',
                   //날짜 선택시 날짜에 해당하는 상영관과 시간정보를 ajax방식으로 가져온다.
                   onSelect: function(dateText) {
-                	  $.get('/movie/time',{moviecode:'m1',date:dateText},function(data){
+                	  $.get('/movie/time',{moviecode:moviecode.val(),date:dateText},function(data){
                 		  $('.time-select--wide').empty();
                 		  
                       		data.forEach(function(parent_element,parent_index,parent_array){
@@ -516,13 +516,14 @@ function init_BookingOne() {
                       			$('.time-select--wide').append('<div class="time-select__group group'+parent_index+'">'+'<div class="col-sm-3">'+'<p class="time-select__place">'+(parent_index+1)+'관</p>'+'</div>'+'<ul class="col-sm-6 items-wrap">'+'</ul>'+'</div>');
                       		
                       			parent_element.forEach(function(child_element,child_index,child_array){
-                      				$('.group'+parent_index).children('.items-wrap').append('<li class="time-select__item" data-time="'+child_element.STARTTIME+'"data-screen="s'+(parent_index+1)+'" data-moviecount="'+child_element.MOVIECOUNT+'">'+child_element.STARTTIME+'</li>'+'</ul>'+'</div>');
+                      				$('.group'+parent_index).children('.items-wrap').append('<li class="time-select__item" data-time="'+child_element.STARTTIME+'"data-screen="S'+(parent_index+1)+'" data-moviecount="'+child_element.MOVIECOUNT+'">'+child_element.STARTTIME+'</li>'+'</ul>'+'</div>');
                       			});
                       			
                       			
                       		});
                 		  
                       });
+                	  date.val(dateText);
                   }
                 }).datepicker("setDate","0");
 
@@ -629,9 +630,6 @@ function init_BookingTwo () {
     // var for booking;
                 var numberTicket = $('.choosen_number'),
                     sumTicket = $('.choosen_cost'),
-                    cheapTicket = $('.choosen_number__cheap'),
-                    middleTicket = $('.choosen_number__middle'),
-                    expansiveTicket = $('.choosen_number__expansive'),
                     sits = $('.choosen_sits');
 
     //3. Choose sits (and count price for them)
@@ -657,8 +655,8 @@ function init_BookingTwo () {
 
                             switch(ticketPrice)
                                 {
-                                case '10':
-                                  sum += 10;
+                                case '9000':
+                                  sum += 9000;
                                   cheap += 1;
      
                                   break;
@@ -672,7 +670,7 @@ function init_BookingTwo () {
                                   break;
                             }
 
-                            $('.checked-result').text('$'+sum);
+                            $('.checked-result').text(sum+'원');
                         }
                     }
 
@@ -683,8 +681,8 @@ function init_BookingTwo () {
 
                         switch(ticketPrice)
                                 {
-                                case '10':
-                                  sum -= 10;
+                                case '9000':
+                                  sum -= 9000;
                                   cheap -= 1;
                                   break;
                                 case '20':
@@ -697,7 +695,7 @@ function init_BookingTwo () {
                                   break;
                             }
 
-                        $('.checked-result').text('$'+sum)
+                        $('.checked-result').text(sum+"원")
                     }
 
                     //data element init
@@ -706,15 +704,12 @@ function init_BookingTwo () {
                     //data element set 
                     numberTicket.val(number);
                     sumTicket.val(sum);
-                    cheapTicket.val(cheap);
-                    middleTicket.val(middle);
-                    expansiveTicket.val(expansive );
 
 
                     //좌석정보 변수에 담기
                     var chooseSits = '';
                     $('.choosen-place').each( function () {
-                        chooseSits +=$(this).text()+' ';
+                        chooseSits +=$(this).text()+',';
                     });
 
                     sits.val(chooseSits);
@@ -800,8 +795,8 @@ function init_BookingTwo () {
 
                 switch(ticketPrice)
                         {
-                        case 10:
-                            sum += 10;
+                        case 9000:
+                            sum += 9000;
                             break;
                         case 20:
                             sum += 20;
@@ -811,7 +806,7 @@ function init_BookingTwo () {
                             break;
                 }
 
-                $('.checked-result').text('$'+sum);
+                $('.checked-result').text(sum+"원");
 
                 
 
@@ -843,8 +838,8 @@ function init_BookingTwo () {
 
                         switch(ticketPrice)
                         {
-                                case 10:
-                                    sum -= 10;
+                                case 9000:
+                                    sum -= 9000;
                                     break;
                                 case 20:
                                     sum -= 20;
@@ -854,7 +849,7 @@ function init_BookingTwo () {
                                     break;
                         }
 
-                        $('.checked-result').text('$'+sum);
+                        $('.checked-result').text(sum+'원');
                     }
 
                     

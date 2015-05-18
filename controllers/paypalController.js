@@ -5,25 +5,13 @@ var paypal = require('paypal-rest-sdk');
 var url =require('url');
 var dbConfig = config('dbconfig.js');
 var oracledb = require('oracledb');
+var db =config('db.js');
 
 
 exports.paypalCreate = function (req, res) {
  //paypal method방법(credit_card or paypal)
  var method = req.param('method');
- //좌석들
- var sits = req.param('choosen_sits');
- //싼좌석의 개수
- var numberOfCheap = req.param('choosen_number__cheap');
- //중간가격 좌석의 개수
- var numberOfMiddle = req.param('choosen_number__middle');
- //비싼가격 좌석의 개수 
- var numberOfExpansive = req.param('choosen_number__expansive');
- //영화
- var movie = req.param('choosen_movie');
- //스크린
- var screen = req.param('choosen_screen');
- //시간
- var time = req.param('choosen_time');
+
  
  //get parameters and put into reservaionInfo
  var url_parts = url.parse(req.url, true);
@@ -36,25 +24,23 @@ exports.paypalCreate = function (req, res) {
     },
     "transactions": [{
     	 "item_list": {
-             "items": []
+             "items": [{
+            	 name:'좌석',
+            	 price:'9000',
+            	 currency:'KRW',
+            	 quantity:reservationInfo.choosen_number
+             }]
          },
       "amount": {
-        "currency": req.param('currency'),
-        "total": req.param('amount'),
+        "currency": reservationInfo.currency,
+        "total": reservationInfo.amount,
       },
-      "description": sits
+      "description": reservationInfo.choosen_sits
     }]
   };
  
- 
-  //items object를 만든다.
-  var items= new Array();
-  if(numberOfCheap!=0)  items.push(new Item('10$좌석','10',numberOfCheap));
-  if(numberOfMiddle!=0)  items.push(new Item('20$좌석','20',numberOfMiddle));
-  if(numberOfExpansive!=0) items.push(new Item('30$좌석','30',numberOfExpansive));
-  payment.transactions[0].item_list.items=items;
   
-  	
+ 
   console.log(payment.transactions[0].item_list.items);
   if (method === 'paypal') {
     payment.payer.payment_method = 'paypal';
@@ -90,6 +76,7 @@ exports.paypalCreate = function (req, res) {
       res.render('book/book3-buy', {'payment': payment,'reservationInfo':reservationInfo});
     }
   });
+  
 };
 
 
@@ -98,55 +85,53 @@ exports.paypalExecute = function(req, res){
 	var reservationInfo = req.session.reservationInfo;
 	var payerId = req.param('PayerID');
 	var details = { "payer_id": payerId };
-	  
-  	var booking_insert = "INSERT INTO BOOKING VALUES ( :bookingcode, :email, :timecode,:screencode,:moviecode,:totalprice,:cheapseatcount,:middleseatcount,:expansiveseatcount)";
-	var booked_seats_insert ="INSERT INTO BOOKED_SEATS VALUES(:bookingcode,:seatcode)"; 
-	var performance_seat_update ="UPDATE PERFORMANCE_SEAT SET SEATSTATUS=1 WHERE SEATCODE :seatcode and TIMECODE :timecode";
-  	
-  	
+	
+	//trim해서 문자열의 양쪽 공백을 없애준 후 배열생성.
+	var seats = reservationInfo.choosen_sits.substr(0,reservationInfo.choosen_sits.length-2);
+	console.log(seats);
+
+	var bindvars = {
+			  p_seats: seats,
+			  p_email : req.user.EMAIL,
+			  p_class : req.user.CLASS,
+			  p_bookingcode : paymentId,
+			  p_timecode : reservationInfo.choosen_screen+reservationInfo.choosen_date+reservationInfo.choosen_count,
+			  p_screencode :reservationInfo.choosen_screen,
+			  p_moviecode : reservationInfo.choosen_moviecode,
+			  p_totalprice : reservationInfo.amount,
+			  p_seatcount : reservationInfo.choosen_number
+			}
+	
+	var BIGINBLOCK = "DECLARE "
+                    +"p_seatcodes SEATCODES; "
+                    +"s_seatcodes varchar2(300); "
+                    +"BEGIN " 
+                    +"s_seatcodes:= :p_seats;"
+                    +"SELECT REGEXP_SUBSTR(s_seatcodes, '[^,$]+', 1, LEVEL ) AS 검증항목 "
+                    +"BULK collect into p_seatcodes "
+                    +"FROM DUAL "
+                    +"CONNECT BY REGEXP_SUBSTR(s_seatcodes, '[^,$]+', 1, LEVEL ) IS NOT NULL; "
+                    +"RESERVEPROC(:p_email,:p_class,:p_bookingcode,:p_timecode,:p_screencode,:p_moviecode,:p_totalprice,:p_seatcount,p_seatcodes); "
+                    +"END; "
+
+	//table query
 	oracledb.getConnection(dbConfig,
 			function(err,connection){
-				 if (err) {
+				 if (err){
 				      console.error(err.message);
 				      return;
 				 }
-				 connection.execute(booking_insert,[paymentId,req.user.email,reservationInfo],{outFormat: oracledb.OBJECT},
-					function(err,user){
-				    	console.log(user);
-						if(err){
-							
-							return done(err,req.flash('signUpMessage','인터넷 연결을 확인하세요'));
-						}
-						if(user.rows.length>0){
-							
-							return done(null,null,req.flash('signUpMessage','이미 존재하는 이메일 입니다..'));
-						}
-						else{
-							console.log(req.body);
-							connection.execute(insert,req.body,function(err,result){
-								
-								if(err){
-									console.log("삽입에러");
-		        					return done(null,null,req.flash('signUpMessage','db점검 중 입니다..'));
-		        				}
-								connection.commit(function(err){
-									if(err){
-										console.log("삽입시 커밋에러");
-										console.log(err.message);
-										return;
-									}
-								console.log(result);
-									  return done(null,req.body,req.flash('signUpMessage','회원가입성공'));
-								 })
-		        	    	      
-							});
-						}
-						
-			    	});
-	          });
-	  
-	  
-	  
+				 connection.execute(BIGINBLOCK,bindvars,function(err,result){
+					 if(err){
+						 console.log("예약 프로시저 에러");
+						 console.log(err.message);
+						 return ;
+					 }
+					 console.log("예약 프로시저가 정상적으로 실행되었음.");  // 1
+					 
+			     }); 
+	  });
+	
 	  paypal.payment.execute(paymentId, details, function (error, payment) {
 	    if (error) {
 	      console.log(error);
@@ -157,11 +142,4 @@ exports.paypalExecute = function(req, res){
 	  });
 };
 
-//make Item
-function Item(name,price,quantity){
-	this.name = name;
-	this.price = price;
-	this.currency = 'USD';
-	this.quantity = quantity;
-}
 

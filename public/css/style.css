@@ -4691,7 +4691,7 @@ ul#navigation li.mega-menu__nav-item:hover:before {
   border-width: 7px;
 }
 .ui-datepicker .ui-datepicker-header {
-  background: none;
+  background:#4c4145 ;
   border: none;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -4703,6 +4703,16 @@ ul#navigation li.mega-menu__nav-item:hover:before {
   margin-top: 11px;
   margin-bottom: 13px;
 }
+
+.ui-datepicker .ui-datepicker-header .ui-datepicker-year {
+   background:#4c4145 ;
+   border:#4c4145 ;
+}
+.ui-datepicker .ui-datepicker-header .ui-datepicker-month {
+   background:#4c4145 ;
+   border:#4c4145 ;
+}
+
 .ui-datepicker .ui-datepicker-calendar {
   background-color: #4c4145;
 }
