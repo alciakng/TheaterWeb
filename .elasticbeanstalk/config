@@ -1,0 +1,6 @@
+[global]
+ApplicationName=theaterWeb
+DevToolsEndpoint=git.elasticbeanstalk.ap-northeast-1.amazonaws.com
+EnvironmentName=uosmovie
+Region=ap-northeast-1
+AwsCredentialFile=c:/Users/Jonghwan123\.elasticbeanstalk\aws_credential_file
