@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js",
-    "preinstall": "npm install -g oracledb"
+    "start": "node app.js"
   },
   
   "dependencies": {
@@ -19,6 +18,7 @@
     "passport-facebook":"*",
     "passport-twitter":"*",
     "paypal-rest-sdk":"*",
-    "view-helpers":"*"
+    "view-helpers":"*",
+    "oracledb":"*"
   }
 }
