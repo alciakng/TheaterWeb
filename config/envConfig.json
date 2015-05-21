@@ -9,8 +9,8 @@
 	  }
 	},
 	"dbConfig":{
-		"user" : "JH",
-		"password" : "JH",
-		"connectString" : "localhost/XE"
+		"user" : "kjh",
+		"password" : "kosaf46231",
+		"connectString" : "uosmoviedb.c8axvenngz2w.ap-northeast-1.rds.amazonaws.com:1521/EBDB"
 	}
 }
