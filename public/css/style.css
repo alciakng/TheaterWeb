@@ -2782,6 +2782,11 @@ input[type="button"].btn-block {
   top: 16px;
   left: 15px;
   z-index: 2;
+  color: white;
+  font-stretch: semi-expanded;
+  font-size: large;
+  font-style: inherit;
+  font-family: cursive;
 }
 .logo img {
   width: 111px;
@@ -2796,7 +2801,7 @@ ul#navigation {
   margin-right: 280px;
 }
 ul#navigation a {
-  font: 13px 'Roboto', sans-serif;
+  font: 15px 'Roboto', sans-serif;
   color: #b4b1b2;
   -webkit-transition: 0.3s;
   transition: 0.3s;
@@ -3591,7 +3596,7 @@ ul#navigation a:hover {
 .search .search__field {
   display: inline-block;
   width: 100%;
-  padding: 9px 300px 9px 19px;
+  padding: 9px 600px 9px 19px;
   margin-top: 14px;
   line-height: 18px;
   -webkit-border-radius: 3px;
@@ -6149,7 +6154,6 @@ ul#navigation li.mega-menu__nav-item:hover:before {
   font-family: 'aleoitalic', sans-serif;
 }
 .order .order__control {
-  margin-top: 36px;
 }
 .order .order__control .order__control-btn {
   border: 1px solid #4C4145;
@@ -7299,6 +7303,7 @@ ul#navigation li.mega-menu__nav-item:hover:before {
   padding: 0 10px;
   margin-bottom: 0;
   position: absolute;
+  width:190px;
   bottom: 0;
   left: 0;
   z-index: -1;
@@ -7496,6 +7501,10 @@ ul#navigation li.mega-menu__nav-item:hover:before {
   background-image: url(../images/icons/director.svg);
   top: -25px;
 }
+.mega-select-marker .movie:before {
+  background-image: url(../images/icons/director.svg);
+  top: -25px;
+}
 .mega-select-marker .country:before {
   background-image: url(../images/icons/country.svg);
 }
@@ -7629,7 +7638,7 @@ ul#navigation li.mega-menu__nav-item:hover:before {
 }
 .login {
   background-color: #ffffff;
-  padding-top: 58px;
+  padding-top: 25px;
   padding-bottom: 22px;
 }
 .login .login__title {

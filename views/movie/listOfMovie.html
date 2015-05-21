@@ -28,9 +28,9 @@
                  <div class="tags-area">
                     <div class="tags tags--unmarked">
                             <ul>
-                                <li class="item-wrap"><a href="#" class="tags__item item-active" data-filter='OPENDATE'>개봉일순</a></li>
-                                <li class="item-wrap"><a href="#" class="tags__item" data-filter='RESERVECOUNT'>예매순</a></li>
-                                <li class="item-wrap"><a href="#" class="tags__item" data-filter='PREFER'>평점순</a></li>
+                                <li class="item-wrap"><a href="#" class="tags__item" id='OPENDATE' data-filter='OPENDATE'>개봉일순</a></li>
+                              
+                                <li class="item-wrap"><a href="#" class="tags__item" id='SCORE'  data-filter='SCORE'>평점순</a></li>
                             </ul>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                 <div class="movie movie--preview release">
                      <div class="col-sm-5 col-md-3">
                             <div class="movie__images">
-                                <img alt='' src="{{'/image/'+movie.IMAGE}}">
+                                <img alt='' src="{{'https://s3-ap-northeast-1.amazonaws.com/uosbucket/'+movie.IMAGE}}">
                             </div>
                             <div class="movie__feature">
                                 <a href="#" class="movie__feature-item movie__feature--comment">123</a>
@@ -50,23 +50,27 @@
                     </div>
 
                     <div class="col-sm-7 col-md-9">
-                            <a href='movie-page-right.html' class="movie__title link--huge">{{movie.NAME}}</a>
+                            <a href='/movie/info?moviecode={{movie.MOVIECODE}}' class="movie__title link--huge">{{movie.NAME}}</a>
                             <p class="movie__time">{{movie.RUNNINGTIME}}</p>
 
                             <p class="movie__option"><strong>국가 : </strong><a href="#">{{movie.COUNTRY}}</a></p>
                             <p class="movie__option"><strong>장르 : </strong><a href="#">{{movie.GENRE}}</a></p>
-                            <p class="movie__option"><strong>개봉일 : </strong>{{movie.OPENDATE}}</p>
+                            <p class="movie__option"><strong>개봉일 : </strong>{{movie.OPEN_DATE}}</p>
                             <p class="movie__option"><strong>감독 : </strong><a href="#">{{movie.DIRECTOR}}</a></p>
                             <p class="movie__option"><strong>배우들 : </strong><a href="#">{{movie.ACTORS}}</p>
                             <p class="movie__option"><strong>연령 : </strong><a href="#">{{movie.RATING}}</a></p>
 							<p class="movie__option"><strong>내용 : </strong><a href="#">{{movie.SUMMARY}}</a></p>
                             <div class="movie__btns">
                                 <a href="/book/init" onclick="sessionStorage.setItem('movie','{{movie.MOVIECODE}}')" class="btn btn-md btn--warning">예약하기 <span class="hidden-sm"><small>이 영화를 예약하려면 클릭하세요.</small></span></a>
-                                <a href="#" class="watchlist">선호리스트에 담기</a>
+                                <a href="/user/addWatchList?moviecode={{movie.MOVIECODE}}" class="watchlist">워치리스트에 담기</a>
                             </div>
 
                             <div class="preview-footer">
-                                <div class="movie__rate"><div class="score"></div><span class="movie__rate-number">170 votes</span> <span class="movie__rating">5.0</span></div>
+                                <div class="movie__rate">
+                                <div id='score' class="score"></div>
+                                <span class="movie__rate-number">{{movie.VOTES+'명이 평가'}}</span>
+                                <span class="movie__rating">{{movie.AVGSCORE}}</span>
+                                </div>
                             </div>
                     </div>
 

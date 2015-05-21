@@ -1,8 +1,3 @@
-
-
-
-
-
 {% extends '../layout/default.html' %}
 {% block content %}
         <section class="container">
@@ -24,20 +19,26 @@
 
             <div class="col-sm-12">
                 <div class="checkout-wrapper">
-                    <h2 class="page-heading">price</h2>
+                    <h2 class="page-heading">예약정보</h2>
                      <ul class="book-result">
                         <li class="book-result__item">영화 : <span class="book-result__count booking-ticket">{{reservationInfo.choosen_movie}}</span></li>
                         <li class="book-result__item">상영관 : <span class="book-result__count booking-price">{{reservationInfo.choosen_screen}}</span></li>
-                           <li class="book-result__item">날짜 : <span class="book-result__count booking-cost">{{reservationInfo.choosen_date}}</span></li>
+                        <li class="book-result__item">좌석 수 : <span class="book-result__count booking-ticket">{{reservationInfo.choosen_number}}</span></li>  
+                        <li class="book-result__item">날짜 : <span class="book-result__count booking-cost">{{reservationInfo.choosen_date}}</span></li>
                         <li class="book-result__item">시간 : <span class="book-result__count booking-cost">{{reservationInfo.choosen_time}}</span></li>
                     </ul>
                     <br>
-                    <ul class="book-result">
-                        <li class="book-result__item">좌석 수 : <span class="book-result__count booking-ticket">{{reservationInfo.choosen_number}}</span></li>        	
-                        <li class="book-result__item">총 요금 : <span class="book-result__count booking-cost">{{reservationInfo.amount+'원'}}</span></li>
-                    </ul>
-           
-                
+                    {% if req.user !=NULL %}
+                     <h2 class="page-heading">마일리지 사용</h2>
+                       <ul  class="book-result">
+           				 <li class="book-result__item">현재 마일리지 : <span class="book-result__count booking-ticket">{{req.user.MILEAGE}}</span></li>   
+           				 
+                	   </ul>
+                	{% endif %}
+                	 <h2 class="page-heading">총 요금</h2>	
+                	   <ul  class="book-result">
+                		 <li class="book-result__item"><span class="book-result__count booking-cost">{{reservationInfo.amount+'원'}}</span></li>
+                	   </ul>
                 </div>
                 
                 {% if payment.payer.payment_method =='paypal' %}

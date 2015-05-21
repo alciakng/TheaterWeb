@@ -286,17 +286,7 @@ function init_Home() {
                     });
 
 	
-	//2. Dropdown for authorize button
-    		//user list option
-            $('.auth__show').click(function (e){
-                e.preventDefault();
-                $('.auth__function').toggleClass('open-function')
-            })
-
-            $('.btn--singin').click(function (e){
-                e.preventDefault();
-                $('.auth__function').toggleClass('open-function')
-            });
+	
 
     //3. Mega select with filters (and markers)
     //Mega select interaction
@@ -381,6 +371,9 @@ function init_Home() {
         $('html, body').stop().animate({'scrollTop': $('#target').offset().top-30}, 900, 'swing');
     });
 }
+
+
+
 
 function init_BookingOne() {
     "use strict";
@@ -505,7 +498,7 @@ function init_BookingOne() {
                   showOtherMonths: true,
                   selectOtherMonths: true,
                   showAnim:"fade",
-                  dateFormat:'yy/mm/dd',
+                  dateFormat:'yy-mm-dd',
                   //날짜 선택시 날짜에 해당하는 상영관과 시간정보를 ajax방식으로 가져온다.
                   onSelect: function(dateText) {
                 	  $.get('/movie/time',{moviecode:moviecode.val(),date:dateText},function(data){
@@ -518,10 +511,7 @@ function init_BookingOne() {
                       			parent_element.forEach(function(child_element,child_index,child_array){
                       				$('.group'+parent_index).children('.items-wrap').append('<li class="time-select__item" data-time="'+child_element.STARTTIME+'"data-screen="S'+(parent_index+1)+'" data-moviecount="'+child_element.MOVIECOUNT+'">'+child_element.STARTTIME+'</li>'+'</ul>'+'</div>');
                       			});
-                      			
-                      			
                       		});
-                		  
                       });
                 	  date.val(dateText);
                   }
@@ -592,10 +582,12 @@ function init_BookingOne() {
                     //data element set change
                     date.val(chooseDate);
                 });
-
+               
+             
+                
                 // --- Step for data - serialize and send to next page---//
                 $('.booking-form').submit( function () {
-                    var bookData = $(this).serialize();
+                    var bookData = $(this).serialize();   
                     $.get($(this).attr('action'),bookData);
                 })
 
@@ -718,12 +710,12 @@ function init_BookingTwo () {
 				//--- Step for data  ---//
 				//Get data from pvevius page
                 var url = decodeURIComponent(document.URL);
-                var prevDate = url.substr(url.indexOf('?')+1);
+                var prevData = url.substr(url.indexOf('?')+1);
 
                 //Serialize, add new data and send to next page
                 $('.booking-form').submit(function () {
                     var bookData = $(this).serialize();
-                    var fullData = prevDate + '&' + bookData;
+                    var fullData = prevData + '&' + bookData;
                  
                    $.get($(this).attr('action'), fullData);
                 });
@@ -916,8 +908,8 @@ function init_Contact () {
 				//Init map
                     var mapOptions = {
                         scaleControl: true,
-                        center: new google.maps.LatLng(51.509708, -0.130539),
-                        zoom: 15,
+                        center: new google.maps.LatLng(37.583961, 127.058764),
+                        zoom: 30,
                         navigationControl: false,
                         streetViewControl: false,
                         mapTypeControl: false,
@@ -1072,7 +1064,17 @@ function init_Gallery () {
 
 function init_MovieList () {
     "use strict";
+    //장르초기화
     $('.select__sort').val(sessionStorage.getItem('genre'));
+    //sort 초기화(너무 로직이 복잡함 다시 코딩해야함)
+    $('.tags__item').removeClass('item-active');
+    if(!sessionStorage.getItem('orderBy'))
+    $('.tags__item').eq(0).addClass('item-active');
+    else if(sessionStorage.getItem('orderBy')=='OPENDATE')
+    	$('.tags__item').eq(0).addClass('item-active');
+    else
+    	$('.tags__item').eq(1).addClass('item-active');
+    
 	//1. Dropdown init 
 				//select
                 $(".select__sort").selectbox({
@@ -1121,18 +1123,34 @@ function init_MovieList () {
         starOn  : 'star-on.svg' 
     });
 
+    $('.score').click(function () {
+    	var thisScore =$(this);
+        thisScore.children().hide();
+        var score = thisScore.children('[name=score]').val();
+       
+        $.post( "/movie/postRating",{score:score,moviecode:$(this).attr('data-moviecode')},function(data){
+        	
+        	 if(data.isLogedIn)
+        	 thisScore.html('<span class="rates__done">평가에 감사합니다!<span>');
+         	 else	
+             thisScore.html('<span class="rates__done">로그인이 필요합니다.<span>');
+        });
+       
+    });
+    
     //4. Sorting by category
     			// sorting function
                 $('.tags__item').click(function (e) {
                     //prevent the default behaviour of the link
                     e.preventDefault();
-
+                    		
+                    
                         //active sorted item
                         $('.tags__item').removeClass('item-active');
                         $(this).addClass('item-active');
 
                         var filter = $(this).attr('data-filter');
-
+                        sessionStorage.setItem('orderBy',filter);
                         //show all the list items(this is needed to get the hidden ones shown)
                         $(".movie--preview").show();
                         $('.pagination').show();
@@ -1172,10 +1190,19 @@ function init_MoviePage () {
     //Rating star
     $('.score').raty({
         width:130, 
-        score: 5,
+        score: 0,
         path: '/images/rate/',
         starOff : 'star-off.svg',
         starOn  : 'star-on.svg' 
+    });
+    
+    //After rate callback
+    $('.score').click(function () {
+        $(this).children().hide();
+        var score = $(this).children('[name=score]').val();
+        
+        $.post( "/movie/postRating",{score:score,moviecode:$(this).attr('data-moviecode')});
+        $(this).html('<span class="rates__done">감사합니다!<span>');
     });
 
     //2. Swiper slider
@@ -1821,10 +1848,19 @@ function init_Rates () {
 
                 //After rate callback
                 $('.score').click(function () {
-                    $(this).children().hide();
-
-                    $(this).html('<span class="rates__done">Thanks for your vote!<span>')
-                })
+                	var thisScore =$(this);
+                    thisScore.children().hide();
+                    var score = thisScore.children('[name=score]').val();
+                   
+                    $.post( "/movie/postRating",{score:score,moviecode:$(this).attr('data-moviecode')},function(data){
+                    	
+                    	 if(data.isLogedIn)
+                    	 thisScore.html('<span class="rates__done">평가에 감사합니다!<span>');
+                     	 else	
+                         thisScore.html('<span class="rates__done">로그인이 필요합니다.<span>');
+                    });
+                   
+                });
 }
 
 function init_Cinema () {

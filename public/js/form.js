@@ -110,7 +110,7 @@ $('#login-form').submit(function(e){
 		 
 		 if(data.matching=='success'){
 			self.children().fadeOut(300,function(){ $(this).remove() })
-			$('<p class="login__title">sign in <br><span class="login-edition">welcome to theater</span></p><p class="success">'+data.loginMessage+'<br>2초 후에 메인 페이지로 이동합니다.</p>').appendTo(self)
+			$('<p class="login__title">sign in <br><span class="login-edition">welcome to theater</span></p><p class="success">'+data.loginMessage+'</p>').appendTo(self)
 			.hide().delay(300).fadeIn();
 			
 			window.setTimeout(function() {
@@ -169,7 +169,7 @@ $('#signUp-form').submit(function(e){
 			.hide().delay(300).fadeIn();
 			
 			window.setTimeout(function() {
-			    window.location.href = '/login';
+			    window.location.href = '/';
 			},2000);
 		 }
 		 else{

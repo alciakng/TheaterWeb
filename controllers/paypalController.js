@@ -5,18 +5,15 @@ var paypal = require('paypal-rest-sdk');
 var url =require('url');
 var dbConfig = config('dbconfig.js');
 var oracledb = require('oracledb');
-var db =config('db.js');
 
-
+//결제생성모듈
 exports.paypalCreate = function (req, res) {
  //paypal method방법(credit_card or paypal)
  var method = req.param('method');
 
- 
  //get parameters and put into reservaionInfo
  var url_parts = url.parse(req.url, true);
- var reservationInfo = url_parts.query;
- console.log(reservationInfo);
+ var reservationInfo = url_parts.query; 
  
  var payment = {
     "intent": "sale",
@@ -27,7 +24,7 @@ exports.paypalCreate = function (req, res) {
              "items": [{
             	 name:'좌석',
             	 price:'9000',
-            	 currency:'KRW',
+            	 currency:'USD',
             	 quantity:reservationInfo.choosen_number
              }]
          },
@@ -79,7 +76,7 @@ exports.paypalCreate = function (req, res) {
   
 };
 
-
+//결제진행 모듈.
 exports.paypalExecute = function(req, res){
 	var paymentId = req.session.paymentId;
 	var reservationInfo = req.session.reservationInfo;
@@ -89,11 +86,15 @@ exports.paypalExecute = function(req, res){
 	//trim해서 문자열의 양쪽 공백을 없애준 후 배열생성.
 	var seats = reservationInfo.choosen_sits.substr(0,reservationInfo.choosen_sits.length-2);
 	console.log(seats);
+	
+	
 
 	var bindvars = {
 			  p_seats: seats,
-			  p_email : req.user.EMAIL,
-			  p_class : req.user.CLASS,
+			  p_email : (req.user? req.user.EMAIL : null),
+			  p_class : (req.user? req.user.CLASS : null),
+			  p_phonenumber : (req.user? null : req.session.nonmember.phone_number),
+			  p_name : (req.user? req.user.NAME : req.session.nonmember.name),
 			  p_bookingcode : paymentId,
 			  p_timecode : reservationInfo.choosen_screen+reservationInfo.choosen_date+reservationInfo.choosen_count,
 			  p_screencode :reservationInfo.choosen_screen,
@@ -111,7 +112,7 @@ exports.paypalExecute = function(req, res){
                     +"BULK collect into p_seatcodes "
                     +"FROM DUAL "
                     +"CONNECT BY REGEXP_SUBSTR(s_seatcodes, '[^,$]+', 1, LEVEL ) IS NOT NULL; "
-                    +"RESERVEPROC(:p_email,:p_class,:p_bookingcode,:p_timecode,:p_screencode,:p_moviecode,:p_totalprice,:p_seatcount,p_seatcodes); "
+                    +"RESERVEPROC(:p_email,:p_class,:p_phonenumber,:p_name,:p_bookingcode,:p_timecode,:p_screencode,:p_moviecode,:p_totalprice,:p_seatcount,p_seatcodes); "
                     +"END; "
 
 	//table query
@@ -141,5 +142,3 @@ exports.paypalExecute = function(req, res){
 	    }
 	  });
 };
-
-

@@ -22,7 +22,7 @@ module.exports  = new LocalStrategy({
 	        function(req, email, password, done){
 	        	
 	        	var select = "select * from MEMBER where email = :email";
-	        	var insert = "INSERT INTO MEMBER VALUES (:email,:password,:name,to_date(:birth,'yyyy-mm-dd'),:sex,0,'D')";
+	        	var insert = "INSERT INTO MEMBER VALUES (:email,:password,:name,to_date(:birth,'yy-mm-dd'),:sex,0,'D')";
 	        	
 	        	oracledb.getConnection(dbConfig,
 	        			function(err,connection){

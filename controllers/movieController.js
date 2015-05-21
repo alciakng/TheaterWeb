@@ -7,11 +7,7 @@ var oracledb = require('oracledb');
 var url = require('url');
 
 
-//show index page;
-exports.index = function(req,res){
 
-	res.render('index');
-}
 
 //get time Of Movie
 exports.getTimeOfMovie = function(req,res){
@@ -20,7 +16,7 @@ exports.getTimeOfMovie = function(req,res){
 	
 	console.log(moviecode);
 	console.log(date);
-	var sql = "select * from time where moviecode =:moviecode and moviedate=to_date(:moviedate,'yyyy/mm/dd') order by SCREENCODE";
+	var sql = "select * from time where moviecode =:moviecode and moviedate=to_date(:moviedate,'yy-mm-dd') order by SCREENCODE";
 	
 	oracledb.getConnection(dbConfig,
 			function(err,connection){
@@ -61,45 +57,9 @@ exports.getTimeOfMovie = function(req,res){
 
 //search Movie
 exports.searchMovie = function(req,res){
-	var keyword = req.param('search__text');
+	var keyword = req.param('search__text')+'%';
 	
-	var sql = "select * from movie where name like : keyword1 or director like : keyword2 ";
-	
-	oracledb.getConnection(dbConfig,
-			function(err,connection){
-				 if (err) {
-				      console.error(err.message);
-				      return;
-				 }
-				 connection.execute(sql,[keyword,keyword],{outFormat: oracledb.OBJECT},
-					function(err,result){
-				    	console.log(result);
-						if(err){
-							console.log(err.message);
-							return;
-						}
-						res.render('movie/listOfMovie',{
-							movies : result.rows
-						}); 
-						
-			    	});
-	          });
-}
-
-exports.test =function(req,res){
-	res.render('test');
-}
-//show list of movie;
-exports.showListOfMovie = function(req,res){
-	console.log(req.param("genre"));
-	console.log(req.param("orderBy"));
-	var genre =(req.param('genre')!=undefined? req.param("genre")+"%" :"%");
-	var orderBy = (req.param('orderBy')!=undefined? req.param("orderBy") : "RATING");
-	
-	console.log(genre);
-	console.log(orderBy);
-	
-	var select_movie_list = "select NAME,GENRE,RUNNINGTIME,DIRECTOR,RATING,COMPANY,COUNTRY,ACTORS,IMAGE,SUMMARY,to_char(OPENDATE, 'yy/mm/dd') as OPENDATE,MOVIECODE from movie where genre like :genre order by :orderBy DESC"
+	var sql = "select * from movie where name like :keyword1 or director like :keyword2 or genre like :keyword3 ";
 	
 	oracledb.getConnection(dbConfig,
 			function(err,connection){
@@ -107,30 +67,39 @@ exports.showListOfMovie = function(req,res){
 				      console.error(err.message);
 				      return;
 				 }
-				 connection.execute(select_movie_list,[genre,orderBy],{outFormat: oracledb.OBJECT},
+				 connection.execute(sql,[keyword,keyword,keyword],{outFormat: oracledb.OBJECT},
 					function(err,result){
 				    	console.log(result);
 						if(err){
 							console.log(err.message);
 							return;
 						}
-						res.render('movie/listOfMovie',{
-							movies : result.rows
-						}); 
-						
 						connection.release(function(err){
 							if(err){
 								console.log(err.message);
 								return;
 							}
-						});
+							res.render('movie/listOfMovie',{
+								movies : result.rows
+							}); 
+						})
+						
 						
 			    	});
 	          });
 }
 
-//reserve movie;
-exports.book1_init = function(req,res){
+//getMovieInfo
+exports.getMovieInfo =function(req,res){
+	
+	var moviecode = req.param('moviecode');
+	var select_movie_info = "select to_char(avg(r.score),'fm90.0') as avgscore ,count(r.moviecode) as votes,r.moviecode,m.name,m.genre,m.runningtime,m.director,m.rating,m.company,m.country,m.image,m.summary,m.actors,to_char(m.opendate, 'yy-mm-dd') as open_date from movie m,rating r where m.moviecode=r.moviecode and m.moviecode =:moviecode group by r.moviecode,m.name,m.genre,m.runningtime,m.director,m.rating,m.company,m.country,m.image,m.opendate,m.summary,m.actors";
+	var select_reply = "select m.name,m.password,r.reply from reply r,member m where r.email=m.email and r.moviecode=:moviecode";
+	
+	
+	var bindvars = {
+			moviecode : moviecode
+	};
 	
 	oracledb.getConnection(dbConfig,
 			function(err,connection){
@@ -138,45 +107,43 @@ exports.book1_init = function(req,res){
 				      console.error(err.message);
 				      return;
 				 }
-				 connection.execute(
-				 "select * from movie"
-			    ,
-			    []
-			    ,
-			    {outFormat: oracledb.OBJECT}
-			    ,
-				 function(err,result){
-			    	console.log(result);
-					if(err){
-						console.log(err.message);
-						return;
-					}
-					res.render('book/book1-init',{
-						movies : result.rows
-					}); 
+				 connection.execute(select_movie_info,bindvars,{outFormat:oracledb.OBJECT},function(err,result1){
+					 if(err){
+						 console.error(err.message);
+						 return;
+					 }
+					 
+					 connection.execute(select_reply,bindvars,{outFormat:oracledb.OBJECT},function(err,result2){
+						 if(err){
+							 console.error(err.message);
+							 return;
+						 }
+						 
+						 connection.release(function(err){
+							 if(err){
+								 console.error(err.message);
+								 return;
+							 }
+							 console.log(result1.rows+result2.rows);
+							 res.render('movie/movieInfo',{movieInfo:result1.rows[0],replys:result2.rows}); 
+						 });
+						 
+					 });
+					 
 					
-					connection.release(function(err){
-						if(err){
-							console.log(err.message);
-							return;
-						}
-					});
-					
-			     });
-	          });
-};
+				 })
+	})
+}
 
-//reserve seat;
-exports.book2_seat = function(req,res){
+//get Rating
+exports.getRating = function(req,res){
 	
-	//get parameters
-	var url_parts = url.parse(req.url, true);
-	var prevData = url_parts.query;
-	console.log(prevData);
+	var select_movie_orderby_rating_score = "select to_char(avg(r.score),'fm90.0') as avgscore ,count(r.moviecode) as votes,r.moviecode,m.name,m.genre,m.runningtime,m.director,m.rating,m.company,m.country,m.image,to_char(m.opendate, 'yy-mm-dd') as open_date "
+		   +"from rating r, movie m "
+		   +"where r.moviecode =m.moviecode "
+		   +"group by r.moviecode,m.name,m.genre,m.runningtime,m.director,m.rating,m.company,m.country,m.image,m.opendate "
+		   +"order by avg(r.score) desc";
 	
-	
-	
-	var seat_select_sql ="select * from SEAT ,PERFORMANCE_SEAT where SEAT.SEATCODE=PERFORMANCE_SEAT.SEATCODE and SEAT.SCREENCODE=:1 order by SEAT.SEATROW,LENGTH(SEAT.SEATCOL),SEAT.SEATCOL";
 	
 	oracledb.getConnection(dbConfig,
 			function(err,connection){
@@ -184,61 +151,165 @@ exports.book2_seat = function(req,res){
 				      console.error(err.message);
 				      return;
 				 }
-				 //스크린코드가 :screencode이고 seatrow와 seatcol에 대해 오름차순으로 정렬하여 출력하는 쿼리.
-				 connection.execute(
-				 seat_select_sql,
-			    [prevData.choosen_screen]
-			    ,
-			    {outFormat: oracledb.OBJECT}
-			    ,
-				 function(err,result){
-			    	//console.log(result);
-					if(err){
-						
-						console.log(err.message);
-						return;
-					}
-					
-					//result array mapping
-					var mappedArr=new Array();
-					var tempArr=new Array();
-					if(result.rows.length!=0) var seatrow =result.rows[0].SEATROW;
-					
-					result.rows.forEach(function(element,index,array){
-						
-						if(seatrow==element.SEATROW) tempArr.push(element);
-						else {
-							mappedArr.push(tempArr);
-							seatrow =element.SEATROW;
-							tempArr=[];
-							tempArr.push(element);
-						}
-					});
-					mappedArr.push(tempArr);
-					console.log(mappedArr);
-					
-					res.render('book/book2-seat',{
-						seatRows : mappedArr,
-						prevData : prevData
-					}); 
-					
-					
-					connection.release(function(err){
+				 
+			
+					 connection.execute(select_movie_orderby_rating_score,[],{outFormat:oracledb.OBJECT},function(err,result){
+						 if (err) {
+							  console.log("여긴가2");
+						      console.error(err.message);
+						      return;
+						 	}
+						 connection.release(function(err){
+							  if (err) {
+						      console.error(err.message);
+						      return;
+							 }
+							  console.log(result.rows);
+							  res.render('movie/ratinglist',{ratinglist:result.rows});
+						 });
+					 })
+	});
+	
+};
+
+
+//post Rating
+exports.postRating = function(req,res){
+	
+	var score = req.body.score;
+	var moviecode =req.body.moviecode;
+	
+	var insert_score_into_rating ="insert into rating values(SEQ_RATING.NEXTVAL,:moviecode,:score)";
+	
+	var bindvars = {
+		moviecode :moviecode,
+		score : score
+	};
+	
+	console.log(bindvars);
+	
+	oracledb.getConnection(dbConfig,
+			function(err,connection){
+				 if (err) {
+				      console.error(err.message);
+				      return;
+				 }
+				 if (req.isAuthenticated()) {
+				  
+					 connection.execute(insert_score_into_rating,bindvars,{autoCommit:true},function(err,result){
+						 	if(err){
+						 		console.error(err.message);
+						 		return;
+						 	}
+						 	connection.release(function(err){
+						 		if(err){
+							 		console.error(err.message);
+							 		return;
+						 		}
+						 		
+						 		res.send({isLogedIn : true});
+						 	});
+						 
+						 
+						 });
+				 }
+				 else res.send({isLogedIn : false});
+				 }
+			)
+};
+
+
+//reply
+exports.reply = function(req,res){
+	var reply = req.body.reply;
+	var moviecode =req.body.moviecode;
+	
+	var insert_into_reply = "insert into reply values(SEQ_REPLY.NEXTVAL,:moviecode,:email,:reply)";
+	
+	var bindvars = {
+			moviecode : moviecode,
+			email : req.user.EMAIL,
+			reply : reply
+	}
+	
+	oracledb.getConnection(dbConfig,
+			function(err,connection){
+				 if (err) {
+				      console.error(err.message);
+				      return;
+				 }
+				 
+				 connection.execute(insert_into_reply,bindvars,{autoCommit:true},function(err,result){
+					 if (err) {
+					      console.error(err.message);
+					      return;
+					 }
+					 
+					 connection.release(function(err){
+						 if (err) {
+						      console.error(err.message);
+						      return;
+						 }
+						 res.redirect('/movie/info?moviecode='+moviecode);
+						 
+					 });
+					 
+					 
+				 });
+				 
+	});
+}
+
+
+
+//show list of movie;
+exports.showListOfMovie = function(req,res){
+
+	var genre =(req.param('genre')!=undefined? req.param("genre")+"%" :"%");
+	
+	
+	console.log(genre);
+	
+	
+	var bindvars = {
+			bind_genre : genre
+	}
+	
+	var select_movie_orderby_parameter = "select to_char(avg(r.score),'fm90.0') as avgscore ,count(r.moviecode) as votes,r.moviecode,m.name,m.genre,m.runningtime,m.director,m.rating,m.company,m.country,m.actors,m.image, m.summary, to_char(m.opendate, 'yy-mm-dd') as open_date  "
+		   +"from rating r, movie m "
+		   +"where r.moviecode =m.moviecode "
+		   +"and genre like :bind_genre "
+		   +"group by r.moviecode,m.name,m.genre,m.runningtime,m.director,m.rating,m.company,m.country,m.actors,m.image,m.opendate,m.summary "
+		   +"order by ";
+	
+	select_movie_orderby_parameter+=(req.param('orderBy')=='OPENDATE'? "m.opendate DESC " : "avg(r.score) DESC")
+	
+	
+	
+	oracledb.getConnection(dbConfig,
+			function(err,connection){
+				 if (err) {
+				      console.error(err.message);
+				      return;
+				 }
+				 connection.execute(select_movie_orderby_parameter,bindvars,{outFormat: oracledb.OBJECT},
+					function(err,result){
+				    	console.log(result);
 						if(err){
 							console.log(err.message);
 							return;
 						}
-					});
 					
-			     });
+						connection.release(function(err){
+							if(err){
+								console.log(err.message);
+								return;
+							}
+							res.render('movie/listOfMovie',{
+								movies : result.rows
+							}); 
+						});
+						
+			    	});
 	          });
-};
-
-//buy a ticket
-exports.book3_buy = function(req,res){
-	res.render('book/book3-buy.html');
-};
-
-exports.book4_final = function(req,res){
-	res.render('book/book4-final')
-} 
+}

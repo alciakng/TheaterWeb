@@ -1,0 +1,37 @@
+  {% extends 'layout/default.html' %}
+  {% block content %}
+        
+        <!-- Main content -->
+        <section class="container">
+            <h2 class="page-heading heading--outcontainer">Contact</h2>
+            <div class="contact">
+                <p class="contact__title">질문사항이 있으시면, <br><span class="contact__describe">아래로 연락주시기 바랍니다.</span></p>
+                <span class="contact__mail">uos@uos.ac.kr</span>
+                <span class="contact__tel">6490-6114</span>
+            </div>
+        </section>
+
+        
+
+        <section class="container">
+            <div class="contact">
+                <p class="contact__title">우리 영화관의 위치는? <br> <span class="contact__describe">여기에요!</span></p>
+            </div>
+        </section>
+
+        <div id='location-map' class="map"></div>
+        
+        <div class="clearfix"></div>
+
+       
+  {% endblock %}
+
+  {%block customScript %}
+		
+		<script type="text/javascript">
+            $(document).ready(function() {
+                init_Contact ();
+            });
+		</script>
+
+   {% endblock %}

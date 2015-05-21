@@ -1,0 +1,51 @@
+{% extends '../layout/default.html' %}
+  {% block content %}
+        
+        <!-- Main content -->
+        <section class="container">
+            <div class="col-sm-12">
+                <h2 class="page-heading">WatchList</h2>
+                
+                <div class="row">
+                <div class="gallery-wrapper">
+                
+                {% for watchlist in watchlists %}
+                    <div class="col-sm-4 col-md-3">
+                        <div class="gallery-item">
+                            <a href='http://placehold.it/2150x1200' class="gallery-item__image gallery-item--photo">
+                                <img alt='' src="{{'/image/'+watchlist.IMAGE}}">
+                            </a>
+                            <a href='http://placehold.it/2150x1200' class="gallery-item__descript gallery-item--photo-link">
+                                <span class="gallery-item__icon"><i class="fa fa-video-camera"></i></span>
+                                <p class="gallery-item__name">{{watchlist.NAME}}</p>
+                            </a>
+                        </div>
+                    </div>
+				{% endfor %}
+                    
+                </div>
+                </div>
+    
+
+                <div class="pagination paginatioon--full">
+                    <a href='#' class="pagination__prev">prev</a>
+                    <a href='#' class="pagination__next">next</a>
+                </div>
+            </div>
+
+        </section>
+        
+        <div class="clearfix"></div>
+
+       
+    {% endblock %}
+    
+    {% block customScript %}
+		
+		<script type="text/javascript">
+            $(document).ready(function() {
+                init_Gallery();
+            });
+		</script>
+
+	{% endblock %}

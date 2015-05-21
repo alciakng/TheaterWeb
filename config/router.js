@@ -1,7 +1,8 @@
 
-
+var indexController = controllers('indexController.js');
 var superController = controllers('superController.js');
 var movieController = controllers('movieController.js');
+var bookController = controllers('bookController.js');
 var userController = controllers('userController.js');
 var paypalController = controllers('paypalController.js');
 
@@ -10,7 +11,7 @@ var auth = require('./middlewares/auth.js');
 
 module.exports = function(app,passport){
 	
-	app.get('/show',superController.selectValue);
+	
 	
 	//movie-router
 		app.get('/movie/add', superController.showPage);
@@ -18,12 +19,19 @@ module.exports = function(app,passport){
 		app.get('/movie/list',movieController.showListOfMovie);
 		app.get('/movie/search',movieController.searchMovie);
 		app.get('/movie/time',movieController.getTimeOfMovie);
+		app.get('/movie/info',movieController.getMovieInfo);
+		app.get('/movie/getRating',movieController.getRating);
+		app.post('/movie/postRating',movieController.postRating);
+		app.post('/movie/reply',auth.requiresLogin,movieController.reply);
+		
 	
 	//booking-router
-		app.get('/book/init',movieController.book1_init)
-		app.get('/book/seat',movieController.book2_seat);
-		app.get('/book/buy',movieController.book3_buy);
-		app.get('/book/final',movieController.book4_final);
+		app.get('/book/question',bookController.question);
+		app.post('/book/nonmemberInit',bookController.book1_nonmemberInit);
+		app.get('/book/init',auth.bookingRequiresLogin,bookController.book1_init)
+		app.get('/book/seat',bookController.book2_seat);
+		app.get('/book/buy',bookController.book3_buy);
+		app.get('/book/final',bookController.book4_final);
 	
 	//user-router
 		//load signup page
@@ -66,13 +74,17 @@ module.exports = function(app,passport){
 			passport.authenticate('twitter', { successRedirect: '/',
 		                                     failureRedirect: '/login' }));
 		
+		app.get('/user/getWatchList',auth.requiresLogin,userController.getWatchList);
+		app.get('/user/addWatchList',auth.requiresLogin,userController.addWatchList);
+		
 	//paypal-router
 		app.get('/paypalCreate',paypalController.paypalCreate);
 		app.get('/paypalExecute',paypalController.paypalExecute);
 		
 		
 	//index-router
-		app.get('/',movieController.index);
-		app.get('/test',movieController.test);
+		app.get('/',indexController.index);
+		app.get('/contact',indexController.contact);
+		
 	
 };

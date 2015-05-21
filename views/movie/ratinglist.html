@@ -1,0 +1,56 @@
+  {% extends '../layout/default.html' %}
+  {% block content %}
+        
+        <!-- Main content -->
+        <section class="container">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h2 class="page-heading">Rates</h2>
+
+                        <div class="rates-wrapper rates--full">
+                            
+                            <table>
+                                <colgroup class="col-width-lg">
+                                <colgroup class="col-width">
+                                <colgroup class="col-width-sm">
+                                <colgroup class="col-width">
+
+							 {% for rating in ratinglist %}
+							 	{% if loop.index <3 %}
+                                <tr class="rates rates--top">
+                                {% else %}
+                                <tr class="rates">
+                                {% endif %}
+                                    <td class="rates__obj"><a href="#" class="rates__obj-name">{{rating.NAME}}</a></td>
+                                    <td class="rates__vote">{{rating.VOTES+'명 참여'}}</td>
+                                    <td class="rates__result">{{rating.AVGSCORE}}</td>
+                                    <td class="rates__stars"><div class="score" data-moviecode={{rating.MOVIECODE}}></div></td>
+                                </tr>
+                             {% endfor %}
+
+                               
+
+                            </table>
+                        </div>
+
+                        <div class="pagination paginatioon--full coloum-wrapper">
+                            <a href='#' class="pagination__prev">prev</a>
+                            <a href='#' class="pagination__next">next</a>
+                        </div>    
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        
+        <div class="clearfix"></div>
+        
+        {% endblock %}
+ 	{% block customScript %}
+		<script type="text/javascript">
+            $(document).ready(function() {
+                init_Rates();
+            });
+		</script>
+	{% endblock %}

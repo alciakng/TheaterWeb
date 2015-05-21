@@ -1,0 +1,199 @@
+{% extends '../layout/default.html' %}
+{% block content %}
+        
+        <!-- Main content -->
+        <section class="container">
+            <div class="col-sm-12">
+                <div class="movie">
+                    <h2 class="page-heading">{{movieInfo.NAME}}</h2>
+                    
+                    <div class="movie__info">
+                        <div class="col-sm-4 col-md-3 movie-mobile">
+                            <div class="movie__images">
+                                <span class="movie__rating">{{movieInfo.AVGSCORE}}</span>
+                                <img alt="" src="{{'/image/'+movieInfo.IMAGE}}">
+                            </div>
+                            <div class="movie__rate">당신의 평점은? <div id='score' data-moviecode='{{movieInfo.MOVIECODE}}' class="score"></div></div>
+                        </div>
+
+                        <div class="col-sm-8 col-md-9">
+                            <p class="movie__time">{{movieInfo.RUNNINGTIME}}</p>
+
+                            <p class="movie__option"><strong>국가 : </strong><a href="#">{{movieInfo.COUNTRY}}</a></p>
+                            <p class="movie__option"><strong>장르 : </strong><a href="#">{{movieInfo.GENRE}}</a></p>
+                            <p class="movie__option"><strong>감독 : </strong><a href="#">{{movieInfo.DIRECTOR}}</a></p>
+                            <p class="movie__option"><strong>배우들 : </strong>{{movieInfo.ACTORS}}</p>
+                            <p class="movie__option"><strong>개봉일 : </strong>{{movieInfo.OPEN_DATE}}</p>
+                            <p class="movie__option"><strong>연령제한 : </strong><a href="#">{{movieInfo.RATING}}</a></p>
+                            <p class="movie__option"><strong>배급사 : </strong><a href="#">{{movieInfo.COMPANY}}</a></p>
+
+                            <a href="#" class="comment-link">평가들 : 15</a>
+
+                            <div class="movie__btns movie__btns--full">
+                                <a href="#" class="btn btn-md btn--warning">예약하기</a>
+                                <a href="{{'/user/watchlist?moviecode='+movieInfo.MOIVECODE}}" class="watchlist">워치리스트에 담기</a>
+                            </div>
+
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="clearfix"></div>
+                    
+                    <h2 class="page-heading">영화 소개</h2>
+
+                    <p class="movie__describe">{{movieInfo.SUMMARY}}</p>
+
+                    <h2 class="page-heading">사진들</h2>	
+                    
+                    <div class="movie__media">
+                        <div class="movie__media-switch">
+                            <a href="#" class="watchlist list--photo" data-filter="media-photo">더 많은 사진보기</a>
+                        </div>
+
+                        <div class="swiper-container">
+                          <div class="swiper-wrapper" style="width: 2366.66666666667px; height: 120px;">
+                              <!--First Slide-->
+                              <div class="swiper-slide media-video swiper-slide-visible swiper-slide-active" style="width: 236.666666666667px; height: 120px; margin-left: -1px;">
+                                <a href="https://www.youtube.com/watch?v=Y5AehBA3IsE" class="movie__media-item ">
+                                     <img alt="" src="http://placehold.it/400x240">
+                                </a>
+                              </div>
+                              
+                              <!--Second Slide-->
+                              <div class="swiper-slide media-video swiper-slide-visible" style="width: 236.666666666667px; height: 120px;">
+                                <a href="https://www.youtube.com/watch?v=Kb3ykVYvT4U" class="movie__media-item">
+                                    <img alt="" src="http://placehold.it/400x240">
+                                </a>
+                              </div>
+                              
+                              <!--Third Slide-->
+                              <div class="swiper-slide media-photo swiper-slide-visible" style="width: 236.666666666667px; height: 120px;"> 
+                                    <a href="http://placehold.it/2100x1250" class="movie__media-item">
+                                        <img alt="" src="http://placehold.it/400x240">
+                                     </a>
+                              </div>
+
+                              <!--Four Slide-->
+                              <div class="swiper-slide media-photo swiper-slide-visible" style="width: 236.666666666667px; height: 120px;"> 
+                                    <a href="http://placehold.it/2100x1250" class="movie__media-item">
+                                        <img alt="" src="http://placehold.it/400x240">
+                                     </a>
+                              </div>
+
+                              <!--Slide-->
+                              <div class="swiper-slide media-photo swiper-slide-visible" style="width: 236.666666666667px; height: 120px;"> 
+                                    <a href="http://placehold.it/2100x1250" class="movie__media-item">
+                                        <img alt="" src="http://placehold.it/400x240">
+                                     </a>
+                              </div>
+
+                              <!--Slide-->
+                              <div class="swiper-slide media-photo" style="width: 236.666666666667px; height: 120px;"> 
+                                    <a href="http://placehold.it/2100x1250" class="movie__media-item">
+                                        <img alt="" src="http://placehold.it/400x240">
+                                     </a>
+                              </div>
+
+                              <!--First Slide-->
+                              <div class="swiper-slide media-video" style="width: 236.666666666667px; height: 120px;">
+                                <a href="https://www.youtube.com/watch?v=Y5AehBA3IsE" class="movie__media-item ">
+                                     <img alt="" src="http://placehold.it/400x240">
+                                </a>
+                              </div>
+                              
+                              <!--Second Slide-->
+                              <div class="swiper-slide media-video" style="width: 236.666666666667px; height: 120px;">
+                                <a href="https://www.youtube.com/watch?v=Kb3ykVYvT4U" class="movie__media-item">
+                                    <img alt="" src="http://placehold.it/400x240">
+                                </a>
+                              </div>
+
+                              <!--Slide-->
+                              <div class="swiper-slide media-photo" style="width: 236.666666666667px; height: 120px;"> 
+                                    <a href="http://placehold.it/2100x1250" class="movie__media-item">
+                                        <img alt="" src="http://placehold.it/400x240">
+                                     </a>
+                              </div>
+
+                              <!--Slide-->
+                              <div class="swiper-slide media-photo" style="width: 236.666666666667px; height: 120px;"> 
+                                    <a href="http://placehold.it/2100x1250" class="movie__media-item">
+                                        <img alt="" src="http://placehold.it/400x240">
+                                     </a>
+                              </div>
+                        
+                          </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                
+                <div class="choose-container">
+                    
+
+                    
+
+                    
+                    
+                    <div class="clearfix"></div>
+
+                    
+                    
+                    <!-- hiden maps with multiple locator-->
+                    <div class="map hide-map">
+                        <div id="cimenas-map" style="position: relative; overflow: hidden; transform: translateZ(0px); background-color: rgb(229, 227, 223);"><div class="gm-style" style="position: absolute; left: 0px; top: 0px; overflow: hidden; width: 100%; height: 100%; z-index: 0;"><div style="position: absolute; left: 0px; top: 0px; overflow: hidden; width: 100%; height: 100%; z-index: 0; cursor: url(https://maps.gstatic.com/mapfiles/openhand_8_8.cur) 8 8, default;"><div style="position: absolute; left: 0px; top: 0px; z-index: 1; width: 100%; transform-origin: 0px 0px 0px; transform: matrix(1, 0, 0, 1, 0, 0);"><div style="transform: translateZ(0px); position: absolute; left: 0px; top: 0px; z-index: 100; width: 100%;"><div style="position: absolute; left: 0px; top: 0px; z-index: 0;"><div aria-hidden="true" style="position: absolute; left: 0px; top: 0px; z-index: 1; visibility: inherit;"><div style="width: 256px; height: 256px; transform: translateZ(0px); position: absolute; left: 55px; top: -52px;"></div><div style="width: 256px; height: 256px; transform: translateZ(0px); position: absolute; left: 55px; top: -308px;"></div><div style="width: 256px; height: 256px; transform: translateZ(0px); position: absolute; left: -201px; top: -52px;"></div><div style="width: 256px; height: 256px; transform: translateZ(0px); position: absolute; left: -201px; top: -308px;"></div></div></div></div><div style="transform: translateZ(0px); position: absolute; left: 0px; top: 0px; z-index: 101; width: 100%;"></div><div style="transform: translateZ(0px); position: absolute; left: 0px; top: 0px; z-index: 102; width: 100%;"></div><div style="transform: translateZ(0px); position: absolute; left: 0px; top: 0px; z-index: 103; width: 100%;"><div style="position: absolute; left: 0px; top: 0px; z-index: -1;"><div aria-hidden="true" style="position: absolute; left: 0px; top: 0px; z-index: 1; visibility: inherit;"><div style="width: 256px; height: 256px; overflow: hidden; transform: translateZ(0px); position: absolute; left: 55px; top: -52px;"></div><div style="width: 256px; height: 256px; overflow: hidden; transform: translateZ(0px); position: absolute; left: 55px; top: -308px;"></div><div style="width: 256px; height: 256px; overflow: hidden; transform: translateZ(0px); position: absolute; left: -201px; top: -52px;"></div><div style="width: 256px; height: 256px; overflow: hidden; transform: translateZ(0px); position: absolute; left: -201px; top: -308px;"></div></div></div></div><div style="position: absolute; left: 0px; top: 0px; z-index: 0;"><div aria-hidden="true" style="position: absolute; left: 0px; top: 0px; z-index: 1; visibility: inherit;"><div style="width: 256px; height: 256px; transform: translateZ(0px); position: absolute; left: 55px; top: -52px; opacity: 1; transition: opacity 200ms ease-out; -webkit-transition: opacity 200ms ease-out;"><img src="https://mts0.googleapis.com/vt?pb=!1m4!1m3!1i15!2i16370!3i10895!2m3!1e0!2sm!3i301102045!3m14!2sko-KR!3sUS!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcC5zOi0xMDB8cC5nOjMscy5lOmwudC5zfHAudjpvZmYscy50OjMzfHMuZTpsLnR8cC52Om9mZixzLnQ6MzN8cy5lOmwuaXxwLnY6b2ZmLHMudDozOHxzLmU6bC50fHAudjpvZmYscy50OjM4fHMuZTpsLml8cC52Om9mZixzLnQ6M3xzLmU6Z3xwLnY6c2ltcGxpZmllZCxzLnQ6NnxwLnY6b258cC5nOjJ8cC5oOiNhYWFhYWEscy50OjIwfHMuZTpsLnQuZnxwLnY6b2ZmLHMudDo1MXxzLmU6bC50fHAudjpvZmYscy50OjY2fHMuZTpsLml8cC52Om9mZg!4e0!5m1!5f2" draggable="false" style="width: 256px; height: 256px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px;"></div><div style="width: 256px; height: 256px; transform: translateZ(0px); position: absolute; left: 55px; top: -308px; opacity: 1; transition: opacity 200ms ease-out; -webkit-transition: opacity 200ms ease-out;"><img src="https://mts0.googleapis.com/vt?pb=!1m4!1m3!1i15!2i16370!3i10894!2m3!1e0!2sm!3i301102045!3m14!2sko-KR!3sUS!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcC5zOi0xMDB8cC5nOjMscy5lOmwudC5zfHAudjpvZmYscy50OjMzfHMuZTpsLnR8cC52Om9mZixzLnQ6MzN8cy5lOmwuaXxwLnY6b2ZmLHMudDozOHxzLmU6bC50fHAudjpvZmYscy50OjM4fHMuZTpsLml8cC52Om9mZixzLnQ6M3xzLmU6Z3xwLnY6c2ltcGxpZmllZCxzLnQ6NnxwLnY6b258cC5nOjJ8cC5oOiNhYWFhYWEscy50OjIwfHMuZTpsLnQuZnxwLnY6b2ZmLHMudDo1MXxzLmU6bC50fHAudjpvZmYscy50OjY2fHMuZTpsLml8cC52Om9mZg!4e0!5m1!5f2" draggable="false" style="width: 256px; height: 256px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px;"></div><div style="width: 256px; height: 256px; transform: translateZ(0px); position: absolute; left: -201px; top: -52px; opacity: 1; transition: opacity 200ms ease-out; -webkit-transition: opacity 200ms ease-out;"><img src="https://mts1.googleapis.com/vt?pb=!1m4!1m3!1i15!2i16369!3i10895!2m3!1e0!2sm!3i301102045!3m14!2sko-KR!3sUS!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcC5zOi0xMDB8cC5nOjMscy5lOmwudC5zfHAudjpvZmYscy50OjMzfHMuZTpsLnR8cC52Om9mZixzLnQ6MzN8cy5lOmwuaXxwLnY6b2ZmLHMudDozOHxzLmU6bC50fHAudjpvZmYscy50OjM4fHMuZTpsLml8cC52Om9mZixzLnQ6M3xzLmU6Z3xwLnY6c2ltcGxpZmllZCxzLnQ6NnxwLnY6b258cC5nOjJ8cC5oOiNhYWFhYWEscy50OjIwfHMuZTpsLnQuZnxwLnY6b2ZmLHMudDo1MXxzLmU6bC50fHAudjpvZmYscy50OjY2fHMuZTpsLml8cC52Om9mZg!4e0!5m1!5f2" draggable="false" style="width: 256px; height: 256px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px;"></div><div style="width: 256px; height: 256px; transform: translateZ(0px); position: absolute; left: -201px; top: -308px; opacity: 1; transition: opacity 200ms ease-out; -webkit-transition: opacity 200ms ease-out;"><img src="https://mts1.googleapis.com/vt?pb=!1m4!1m3!1i15!2i16369!3i10894!2m3!1e0!2sm!3i301102045!3m14!2sko-KR!3sUS!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcC5zOi0xMDB8cC5nOjMscy5lOmwudC5zfHAudjpvZmYscy50OjMzfHMuZTpsLnR8cC52Om9mZixzLnQ6MzN8cy5lOmwuaXxwLnY6b2ZmLHMudDozOHxzLmU6bC50fHAudjpvZmYscy50OjM4fHMuZTpsLml8cC52Om9mZixzLnQ6M3xzLmU6Z3xwLnY6c2ltcGxpZmllZCxzLnQ6NnxwLnY6b258cC5nOjJ8cC5oOiNhYWFhYWEscy50OjIwfHMuZTpsLnQuZnxwLnY6b2ZmLHMudDo1MXxzLmU6bC50fHAudjpvZmYscy50OjY2fHMuZTpsLml8cC52Om9mZg!4e0!5m1!5f2" draggable="false" style="width: 256px; height: 256px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px;"></div></div></div></div><div style="position: absolute; left: 0px; top: 0px; z-index: 2; width: 100%; height: 100%;"></div><div style="position: absolute; left: 0px; top: 0px; z-index: 3; width: 100%; transform-origin: 0px 0px 0px; transform: matrix(1, 0, 0, 1, 0, 0);"><div style="transform: translateZ(0px); position: absolute; left: 0px; top: 0px; z-index: 104; width: 100%;"></div><div style="transform: translateZ(0px); position: absolute; left: 0px; top: 0px; z-index: 105; width: 100%;"></div><div style="transform: translateZ(0px); position: absolute; left: 0px; top: 0px; z-index: 106; width: 100%;"></div><div style="transform: translateZ(0px); position: absolute; left: 0px; top: 0px; z-index: 107; width: 100%;"></div></div></div><div style="margin-left: 5px; margin-right: 5px; z-index: 1000000; position: absolute; left: 0px; bottom: 0px;"><a target="_blank" href="https://maps.google.com/maps?ll=51.514193,-0.156149&amp;z=15&amp;hl=ko-KR&amp;gl=US&amp;mapclient=apiv3" title="Google 지도에서 이 지역을 보려면 클릭하세요." style="position: static; overflow: visible; float: none; display: inline;"><div style="width: 62px; height: 26px; cursor: pointer;"><img src="https://maps.gstatic.com/mapfiles/api-3/images/google_white2_hdpi.png" draggable="false" style="position: absolute; left: 0px; top: 0px; width: 62px; height: 26px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px;"></div></a></div><div class="gmnoprint" style="z-index: 1000001; position: absolute; right: 0px; bottom: 0px; width: 12px;"><div draggable="false" class="gm-style-cc" style="-webkit-user-select: none;"><div style="opacity: 0.7; width: 100%; height: 100%; position: absolute;"><div style="width: 1px;"></div><div style="width: auto; height: 100%; margin-left: 1px; background-color: rgb(245, 245, 245);"></div></div><div style="position: relative; padding-right: 6px; padding-left: 6px; font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(68, 68, 68); white-space: nowrap; direction: ltr; text-align: right;"><a style="color: rgb(68, 68, 68); text-decoration: none; cursor: pointer;">지도 데이터</a><span style="display: none;">지도 데이터 ©2015 Google</span></div></div></div><div style="padding: 15px 21px; border: 1px solid rgb(171, 171, 171); font-family: Roboto, Arial, sans-serif; color: rgb(34, 34, 34); -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 16px; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 16px; z-index: 10000002; display: none; width: 0px; height: 0px; position: absolute; left: 5px; top: 5px; background-color: white;"><div style="padding: 0px 0px 10px; font-size: 16px;">지도 데이터</div><div style="font-size: 13px;">지도 데이터 ©2015 Google</div><div style="width: 13px; height: 13px; overflow: hidden; position: absolute; opacity: 0.7; right: 12px; top: 12px; z-index: 10000; cursor: pointer;"><img src="https://maps.gstatic.com/mapfiles/api-3/images/mapcnt6.png" draggable="false" style="position: absolute; left: -2px; top: -336px; width: 59px; height: 492px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px;"></div></div><div class="gmnoscreen" style="position: absolute; right: 0px; bottom: 0px;"><div style="font-family: Roboto, Arial, sans-serif; font-size: 11px; color: rgb(68, 68, 68); direction: ltr; text-align: right; background-color: rgb(245, 245, 245);">지도 데이터 ©2015 Google</div></div><div class="gmnoprint gm-style-cc" draggable="false" style="z-index: 1000001; position: absolute; -webkit-user-select: none; right: 0px; bottom: 0px;"><div style="opacity: 0.7; width: 100%; height: 100%; position: absolute;"><div style="width: 1px;"></div><div style="width: auto; height: 100%; margin-left: 1px; background-color: rgb(245, 245, 245);"></div></div><div style="position: relative; padding-right: 6px; padding-left: 6px; font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(68, 68, 68); white-space: nowrap; direction: ltr; text-align: right;"><a href="https://www.google.com/intl/ko-KR_US/help/terms_maps.html" target="_blank" style="text-decoration: none; cursor: pointer; color: rgb(68, 68, 68);">이용약관</a></div></div><div draggable="false" class="gm-style-cc" style="-webkit-user-select: none; display: none; position: absolute; right: 0px; bottom: 0px;"><div style="opacity: 0.7; width: 100%; height: 100%; position: absolute;"><div style="width: 1px;"></div><div style="width: auto; height: 100%; margin-left: 1px; background-color: rgb(245, 245, 245);"></div></div><div style="position: relative; padding-right: 6px; padding-left: 6px; font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(68, 68, 68); white-space: nowrap; direction: ltr; text-align: right;"><a target="_new" title="Google에 도로 지도 또는 이미지 오류 신고" href="https://www.google.com/maps/@51.5141932,-0.1561487,15z/data=!10m1!1e1!12b1?source=apiv3&amp;rapsrc=apiv3" style="font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(68, 68, 68); text-decoration: none; position: relative;">지도 오류 신고</a></div></div><div class="gmnoprint" draggable="false" controlwidth="20" controlheight="39" style="margin: 5px; -webkit-user-select: none; position: absolute; left: 0px; top: 0px;"><div class="gmnoprint" controlwidth="0" controlheight="0" style="opacity: 0.6; display: none; position: absolute;"><div title="지도 90도 회전" style="width: 22px; height: 22px; overflow: hidden; position: absolute; cursor: pointer;"><img src="https://maps.gstatic.com/mapfiles/api-3/images/mapcnt6_hdpi.png" draggable="false" style="position: absolute; left: -38px; top: -360px; width: 59px; height: 492px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px;"></div></div><div class="gmnoprint" controlwidth="20" controlheight="39" style="position: absolute; left: 0px; top: 0px;"><div style="width: 20px; height: 39px; overflow: hidden; position: absolute;"><img src="https://maps.gstatic.com/mapfiles/api-3/images/mapcnt6_hdpi.png" draggable="false" style="position: absolute; left: -39px; top: -401px; width: 59px; height: 492px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px;"></div><div title="확대" style="position: absolute; left: 0px; top: 2px; width: 20px; height: 17px; cursor: pointer;"></div><div title="축소" style="position: absolute; left: 0px; top: 19px; width: 20px; height: 17px; cursor: pointer;"></div></div></div><div draggable="false" class="gm-style-cc" style="-webkit-user-select: none; position: absolute; right: 0px; bottom: 0px;"><div style="opacity: 0.7; width: 100%; height: 100%; position: absolute;"><div style="width: 1px;"></div><div style="width: auto; height: 100%; margin-left: 1px; background-color: rgb(245, 245, 245);"></div></div><div style="position: relative; padding-right: 6px; padding-left: 6px; font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(68, 68, 68); white-space: nowrap; direction: ltr; text-align: right;"><span>200 m&nbsp;</span><div style="position: relative; display: inline-block; height: 8px; bottom: -1px; width: 67px;"><div style="width: 100%; height: 4px; position: absolute; bottom: 0px; left: 0px; background-color: rgb(255, 255, 255);"></div><div style="position: absolute; left: 0px; top: 0px; width: 4px; height: 8px; background-color: rgb(255, 255, 255);"></div><div style="width: 4px; height: 8px; position: absolute; bottom: 0px; right: 0px; background-color: rgb(255, 255, 255);"></div><div style="position: absolute; height: 2px; bottom: 1px; right: 1px; left: 1px; background-color: rgb(102, 102, 102);"></div><div style="position: absolute; left: 1px; top: 1px; width: 2px; height: 6px; background-color: rgb(102, 102, 102);"></div><div style="width: 2px; height: 6px; position: absolute; bottom: 1px; right: 1px; background-color: rgb(102, 102, 102);"></div></div></div></div></div></div> 
+                    </div>
+
+                    <h2 class="page-heading">댓글</h2>
+
+                    <div class="comment-wrapper">
+                        <form id="comment-form" class="comment-form" method="post" action='/movie/reply'>
+                            <textarea class="comment-form__text" name='reply' placeholder="댓글을 입력하세요."></textarea>
+                            <input type='hidden' name='moviecode' value='{{movieInfo.MOVIECODE}}'>
+                            <label class="comment-form__info">250자 이내</label>
+                            <button type="submit" class="btn btn-md btn--danger comment-form__btn">댓글달기</button>
+                        </form>
+
+                        <div class="comment-sets">
+
+						{% for reply in replys %}
+	                        <div class="comment">
+	                            <a href="#" class="comment__author">
+	                            {% if reply.PASSWORD =='facebook' %}
+	                            <span class="social-used fa fa-facebook">
+	                            {% else %}
+	                            <span>
+	               				{% endif %}
+	                            </span>{{reply.NAME}}</a>
+	                            <p class="comment__message">{{reply.REPLY}}</p>
+	                        </div>
+                        {% endfor %}
+
+                        <div class="comment-more">
+                            <a href="#" class="watchlist">Show more comments</a>
+                        </div>
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        
+        <div class="clearfix"></div>
+
+{% endblock %}
+        
+{% block customScript %}
+    
+		<script type="text/javascript">
+            $(document).ready(function() {
+                 init_MoviePage();
+                 init_MoviePageFull();
+                 init_Rates();
+            });
+		</script>
+{% endblock %}
