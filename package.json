@@ -3,14 +3,14 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "preinstall": "rpm -ivh oracle-instantclient12.1-basic-12.1.0.2.0-1.x86_64.rpm;rpm -ivh oracle-instantclient12.1-devel-12.1.0.2.0-1.x86_64.rpm"
   },
   
   "dependencies": {
     "express": "3.2.6",
     "jade": "*",
     "swig":"*",
-    "iconv":"*",
     "fs":"*",
     "passport-local":"*",
     "passport":"*",
