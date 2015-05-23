@@ -630,7 +630,7 @@ function init_BookingTwo () {
     //2. Init vars for order data
     // var for booking;
                 var numberTicket = $('.choosen_number'),
-                    sumTicket = $('.choosen_cost'),
+                    sumTicket = $('.total_cost'),
                     sits = $('.choosen_sits');
 
     //3. Choose sits (and count price for them)
@@ -671,7 +671,7 @@ function init_BookingTwo () {
                                   break;
                             }
 
-                            $('.checked-result').text(sum+'원');
+                            $('.checked-result').text(sum);
                         }
                     }
 
@@ -807,7 +807,7 @@ function init_BookingTwo () {
                             break;
                 }
 
-                $('.checked-result').text(sum+"원");
+                $('.checked-result').text(sum);
 
                 
 
@@ -850,7 +850,7 @@ function init_BookingTwo () {
                                     break;
                         }
 
-                        $('.checked-result').text(sum+'원');
+                        $('.checked-result').text(sum);
                     }
 
                     
@@ -863,6 +863,21 @@ function init_BookingTwo () {
                   
 
 }   
+
+
+function init_BookingMileage(){
+	
+	$('.use-mileage').change(function(){
+		
+		if($(this).val()>3000) $(this).val()=0;
+		
+		
+		
+	});
+	
+	
+	
+}
 
 function init_CinemaList () {
     "use strict";

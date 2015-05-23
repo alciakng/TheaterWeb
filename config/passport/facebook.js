@@ -16,7 +16,7 @@ var oracledb = require('oracledb');
 module.exports = new FacebookStrategy({
     clientID: "1439701713010669",
     clientSecret: "d00af0f7c24d7921d6158d37d5f48481",
-    callbackURL:"http://localhost:3000/auth/facebook/callback"
+    callbackURL:"/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {
 	  

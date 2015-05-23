@@ -19,7 +19,12 @@
                                 <span class="ticket__item ticket__date">{{reservationInfo.choosen_date}}</span>
                                 <span class="ticket__item ticket__time">{{reservationInfo.choosen_time}}</span>
                                 <span class="ticket__item">상영관 : <span class="ticket__cinema">{{reservationInfo.choosen_screen}}</span></span>
-                                <span class="ticket__item ticket__price">가격 : <strong class="ticket__cost">{{reservationInfo.amount+'$'}}</strong></span>
+                                <span class="ticket__item ticket__price">총 가격 : <strong class="ticket__cost">{{reservationInfo.total_cost}}</strong></span>
+                                {% if req.user %}
+                                <span class="ticket__item ">마일리지 사용 : <strong class="ticket__cinema">{{'- '+reservationInfo.using_mileage}}</strong></span>
+                                <span class="ticket__item ">할인된 가격 : <strong class="ticket__cinema">{{'- '+reservationInfo.discount_cost}}</strong></span>
+                                {% endif %}
+                                
                             </div>
 
                             <div class="ticket-primery">
@@ -33,10 +38,7 @@
                     </div>
                 </div>
 
-                <div class="ticket-control">
-                    <a href="#" class="watchlist list--download">Download</a>
-                    <a href="#" class="watchlist list--print">Print</a>
-                </div>
+               
 
             </div>
         </section>

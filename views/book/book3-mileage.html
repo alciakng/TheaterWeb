@@ -1,0 +1,105 @@
+{% extends '../layout/default.html' %}
+{% block content %}
+        
+        <!-- Main content -->
+        <section class="container">
+            <div class="order-container">
+                <div class="order">
+                    <img class="order__images" alt='' src="/images/tickets.png">
+                    <p class="order__title">Book a ticket <br><span class="order__descript">and have fun movie time</span></p>
+                </div>
+            </div>
+                <div class="order-step-area">
+                    <div class="order-step first--step order-step--disable ">1. What &amp; Where &amp; When</div>
+                    <div class="order-step second--step order-step--disable">2. Choose a sit</div>
+                    <div class="order-step third--step">3. 마일리지 사용</div>
+                </div>
+
+            <div class="col-sm-12">
+                <div class="checkout-wrapper">
+                 
+
+                    <h2 class="page-heading">마일리지 사용</h2>
+            
+                    <form id='contact-info' method='post' novalidate="" class="form contact-info">
+                      <ul class="book-result">
+                        <li class="book-result__item">사용가능 마일리지 : <span class="book-result__count booking-cost">{{req.user.MILEAGE}}</span></li>
+                      </ul>
+                      
+                       <br>
+                        <div class="contact-info__field contact-info__field-tel">
+                            <input id='use-mileage' placeholder='사용할 마일리지' class="form__mail">
+                        </div>
+                        
+                        <p class="reservation-message">마일리지는 잔여 마일리지 이상으로 사용하실 수 없습니다.</p>
+                    </form>
+                    
+                    <h2 class="page-heading">가격정보</h2>
+                      <ul class="book-result">
+                        <li class="book-result__item">총 가격 : <span class="book-result__count booking-cost" id='discountPrice'>{{prevData.total_cost}}</span></li>
+                      </ul>
+                    
+                   
+                
+                </div>
+                
+           
+            </div>
+
+        </section>
+        
+
+        <div class="clearfix"></div>
+
+        <form id='createPay' method='get' action='/paypalCreate'>
+        	<input type="hidden" name='method' value='paypal'>
+        	<input type="hidden" name='currency' value='USD'>  
+			<input type="hidden" name="charset" value="UTF-8"/>
+            <input type='hidden' name='using_mileage' class='using_mileage'>
+            <input type='hidden' name='discount_cost' class="discount_cost" value='{{prevData.total_cost}}'>
+            <input type='hidden' name='total_cost' value='{{prevData.total_cost}}'>
+            <input type='hidden' name='choosen_number' value='{{prevData.choosen_number}}'>
+            <input type='hidden' name='choosen_sits' value='{{prevData.choosen_sits}}'>
+			<input type='hidden' name='choosen_moviecode' value='{{prevData.choosen_moviecode}}'>
+			<input type='hidden' name='choosen_movie' value='{{prevData.choosen_movie}}' >
+            <input type='hidden' name='choosen_date' value='{{prevData.choosen_date}}'>
+            <input type='hidden' name='choosen_screen' value='{{prevData.choosen_screen}}' >
+            <input type='hidden' name='choosen_time' value='{{prevData.choosen_time}}' >
+            <input type='hidden' name='choosen_count' value='{{prevData.choosen_count}}' >
+
+            <div class="booking-pagination">
+                    <button type="submit" class="booking-pagination__next">
+                        <span class="arrow__text arrow--next">다음 단계</span>
+                        <span class="arrow__info">결제정보 확인</span>
+            </div>
+        </form>
+        
+        <div class="clearfix"></div>
+
+       {% endblock %}
+       
+       {% block customScript %}
+       		<script>
+       		
+       	  $(document).ready(function() {
+       		    
+       			$('#use-mileage').bind('change keyup input',function(){
+       				
+       				
+       				if($(this).val()>{{req.user.MILEAGE}}) $(this).val(18000);
+       				$('#discountPrice').text({{prevData.total_cost}}-$(this).val());
+       				$('.discount_cost').val({{prevData.total_cost}}-$(this).val());
+       				$('.using_mileage').val($(this).val());
+       				
+       				if($('.discount_cost').val()==0){
+       					$('#createPay').attr('action','/book/buy');
+       				}else{
+       					$('#createPay').attr('action','/paypalCreate');
+       				}
+       			
+       				
+       			});
+       	  })
+       		</script>
+       {% endblock %}
+  

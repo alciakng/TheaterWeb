@@ -30,6 +30,7 @@ module.exports = function(app,passport){
 		app.post('/book/nonmemberInit',bookController.book1_nonmemberInit);
 		app.get('/book/init',auth.bookingRequiresLogin,bookController.book1_init)
 		app.get('/book/seat',bookController.book2_seat);
+		app.get('/book/mileage',bookController.book3_mileage);
 		app.get('/book/buy',bookController.book3_buy);
 		app.get('/book/final',bookController.book4_final);
 	
@@ -59,7 +60,7 @@ module.exports = function(app,passport){
 		//로그인에 실패했을 때
 		app.get('/failLogin',userController.failLogin);
 		//facebook-auth
-		app.get('/auth/facebook', passport.authenticate('facebook',{scope:['email','user_birthday'], display: 'page' }));
+		app.get('/auth/facebook', passport.authenticate('facebook',{scope:['email','user_birthday'], display: 'popup' }));
 		//facebook-auth-callback
 		app.get('/auth/facebook/callback',
 		    passport.authenticate('facebook', { successRedirect: '/',

@@ -158,11 +158,32 @@ exports.book2_seat = function(req,res){
 	          });
 };
 
-//buy a ticket
+exports.book3_mileage = function(req,res){
+	
+	var url_parts = url.parse(req.url, true);
+	var prevData = url_parts.query;
+	console.log(prevData);
+	
+	res.render('book/book3-mileage.html',{
+		prevData:prevData
+	});
+}
+
+/*buy a ticket(총 금액을 마일리지로만 결제하는 경우)
+마일리지로만 결제하지 않는 경우에는 paypalCreate가 동작한다.
+*/
 exports.book3_buy = function(req,res){
-	res.render('book/book3-buy.html');
+
+	 //get parameters and put into reservaionInfo
+    var url_parts = url.parse(req.url, true);
+	var reservationInfo = url_parts.query; 
+	req.session.reservationInfo = reservationInfo;
+	
+	res.render('book/book3-buy.html',{'reservationInfo':reservationInfo});
 };
 
 exports.book4_final = function(req,res){
-	res.render('book/book4-final')
+	var reservationInfo = req.session.reservationInfo; 
+	
+	res.render('book/book4-final',{'reservationInfo':reservationInfo})
 } 
