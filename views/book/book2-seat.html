@@ -173,13 +173,10 @@
         
 
         <div class="clearfix"></div>
-        <form id='film-and-time' method='get' action='/paypalCreate'>
-        	<input type="hidden" name='method' value='paypal'>
+        <form class ='booking-form' method='get' action='/book/mileage'>
             <input type='hidden' name='choosen_number' class="choosen_number">
             <input type='hidden' name='amount' class="choosen_cost">
             <input type='hidden' name='choosen_sits' class="choosen_sits">
-            <input type="hidden" name='currency' value='USD'>  
-			<input type="hidden" name="charset" value="UTF-8" size="50" /><br />
 			<input type='hidden' name='choosen_moviecode' value='{{prevData.choosen_moviecode}}'>
 			<input type='hidden' name='choosen_movie' value='{{prevData.choosen_movie}}' >
             <input type='hidden' name='choosen_date' value='{{prevData.choosen_date}}'>
