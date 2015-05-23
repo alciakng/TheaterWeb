@@ -28,29 +28,33 @@
                         <li class="book-result__item">시간 : <span class="book-result__count booking-cost">{{reservationInfo.choosen_time}}</span></li>
                     </ul>
                     <br>
-                    {% if req.user !=NULL %}
-                     <h2 class="page-heading">마일리지 사용</h2>
-                       <ul  class="book-result">
-           				 <li class="book-result__item">현재 마일리지 : <span class="book-result__count booking-ticket">{{req.user.MILEAGE}}</span></li>   
-           				 
-                	   </ul>
-                	{% endif %}
-                	 <h2 class="page-heading">총 요금</h2>	
+             		
+          	
+                	 <h2 class="page-heading">요금</h2>	
                 	   <ul  class="book-result">
-                		 <li class="book-result__item"><span class="book-result__count booking-cost">{{reservationInfo.amount+'원'}}</span></li>
+                		 <li class="book-result__item">총 요금 :<span class="book-result__count booking-cost">{{reservationInfo.total_cost+'원'}}</span></li>
+                		 {% if req.user %}
+                		 <li class="book-result__item">마일리지 사용 :<span class="book-result__count booking-cost">{{reservationInfo.using_mileage+'원'}}</span></li>
+                		 <li class="book-result__item">할인된 금액 :<span class="book-result__count booking-cost">{{reservationInfo.discount_cost+'원'}}</span></li>
+                		 {% endif %}
                 	   </ul>
                 </div>
-                
-                {% if payment.payer.payment_method =='paypal' %}
-					{% for link in payment.links %}
-						{% if link.method == 'REDIRECT' %}
-							{% set redirectUrl = link.href %}
-						{% endif %}
-					{% endfor %}
-				{% endif %}
+                {% if payment !=NULL %}
+	                {% if payment.payer.payment_method =='paypal' %}
+						{% for link in payment.links %}
+							{% if link.method == 'REDIRECT' %}
+								{% set redirectUrl = link.href %}
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+			    {% endif %}
                 
                 <div class="order">
+                	{% if payment!=NULL %}
                     <a href="{{redirectUrl}}" class="btn btn-md btn--warning btn--wide">구매하기</a>
+                    {% else %}
+                    <a href="/book/final" class="btn btn-md btn--warning btn--wide">구매하기</a>
+                    {% endif %}
                 </div>
 
             </div>

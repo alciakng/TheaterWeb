@@ -12,9 +12,9 @@ exports.paypalCreate = function (req, res) {
  var method = req.param('method');
 
  //get parameters and put into reservaionInfo
- var url_parts = url.parse(req.url, true);
+ var url_parts = url.parse(req.url, true,true);
  var reservationInfo = url_parts.query; 
- 
+
  var payment = {
     "intent": "sale",
     "payer": {
@@ -30,20 +30,27 @@ exports.paypalCreate = function (req, res) {
          },
       "amount": {
         "currency": reservationInfo.currency,
-        "total": reservationInfo.amount,
+        "total": (req.user? reservationInfo.discount_cost : reservationInfo.total_cost),
       },
-      "description": reservationInfo.choosen_sits
+      "description": reservationInfo.choosen_sits.substr(0,reservationInfo.choosen_sits.length-2)
     }]
   };
  
+ //회원인 경우 마일리지를 사용할경우에 정보대입
+ if(req.user&&reservationInfo.using_mileage!=0) payment.transactions[0].item_list.items.push(
+		 {
+        	 name:'마일리지사용',
+        	 price:-reservationInfo.using_mileage,
+        	 currency:'USD',
+        	 quantity:1
+  });
   
- 
   console.log(payment.transactions[0].item_list.items);
   if (method === 'paypal') {
     payment.payer.payment_method = 'paypal';
     payment.redirect_urls = {
-      "return_url": "http://localhost:3000/paypalExecute",
-      "cancel_url": "http://localhost:3000/paypalCancel"
+      "return_url": req.protocol + "://" + req.get('host')+"/paypalExecute",
+      "cancel_url": req.protocol + "://" + req.get('host')+"/paypalCancel"
     };
   } else if (method === 'credit_card') {
     var funding_instruments = [
@@ -87,8 +94,6 @@ exports.paypalExecute = function(req, res){
 	var seats = reservationInfo.choosen_sits.substr(0,reservationInfo.choosen_sits.length-2);
 	console.log(seats);
 	
-	
-
 	var bindvars = {
 			  p_seats: seats,
 			  p_email : (req.user? req.user.EMAIL : null),
@@ -99,7 +104,7 @@ exports.paypalExecute = function(req, res){
 			  p_timecode : reservationInfo.choosen_screen+reservationInfo.choosen_date+reservationInfo.choosen_count,
 			  p_screencode :reservationInfo.choosen_screen,
 			  p_moviecode : reservationInfo.choosen_moviecode,
-			  p_totalprice : reservationInfo.amount,
+			  p_totalprice : (req.user? reservationInfo.discount_cost :reservationInfo.total_cost),
 			  p_seatcount : reservationInfo.choosen_number
 			}
 	
