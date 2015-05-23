@@ -373,6 +373,22 @@ function init_Home() {
 }
 
 
+//영화와 날짜에 따른 상영관-시간을 가져오는 함수,
+function getTimeOfMovie(moviecode,date){
+	
+	   $.get('/movie/time',{moviecode:moviecode,date:date},function(data){
+    		  $('.time-select--wide').empty();
+    		  
+          		data.forEach(function(parent_element,parent_index,parent_array){
+          			
+          			$('.time-select--wide').append('<div class="time-select__group group'+parent_index+'">'+'<div class="col-sm-3">'+'<p class="time-select__place">'+(parent_index+1)+'관</p>'+'</div>'+'<ul class="col-sm-6 items-wrap">'+'</ul>'+'</div>');
+          		
+          			parent_element.forEach(function(child_element,child_index,child_array){
+          				$('.group'+parent_index).children('.items-wrap').append('<li class="time-select__item" data-time="'+child_element.STARTTIME+'"data-screen="S'+(parent_index+1)+'" data-moviecount="'+child_element.MOVIECOUNT+'">'+child_element.STARTTIME+'</li>'+'</ul>'+'</div>');
+          			});
+          		});
+          });
+}
 
 
 function init_BookingOne() {
@@ -501,18 +517,7 @@ function init_BookingOne() {
                   dateFormat:'yy-mm-dd',
                   //날짜 선택시 날짜에 해당하는 상영관과 시간정보를 ajax방식으로 가져온다.
                   onSelect: function(dateText) {
-                	  $.get('/movie/time',{moviecode:moviecode.val(),date:dateText},function(data){
-                		  $('.time-select--wide').empty();
-                		  
-                      		data.forEach(function(parent_element,parent_index,parent_array){
-                      			
-                      			$('.time-select--wide').append('<div class="time-select__group group'+parent_index+'">'+'<div class="col-sm-3">'+'<p class="time-select__place">'+(parent_index+1)+'관</p>'+'</div>'+'<ul class="col-sm-6 items-wrap">'+'</ul>'+'</div>');
-                      		
-                      			parent_element.forEach(function(child_element,child_index,child_array){
-                      				$('.group'+parent_index).children('.items-wrap').append('<li class="time-select__item" data-time="'+child_element.STARTTIME+'"data-screen="S'+(parent_index+1)+'" data-moviecount="'+child_element.MOVIECOUNT+'">'+child_element.STARTTIME+'</li>'+'</ul>'+'</div>');
-                      			});
-                      		});
-                      });
+                	  getTimeOfMovie(moviecode.val(),dateText);
                 	  date.val(dateText);
                   }
                 }).datepicker("setDate","0");
@@ -527,7 +532,7 @@ function init_BookingOne() {
 
 	//6. Choose variant proccess
 				//choose film
-                $('.film-images').click(function(e){
+                $(document).delegate('.film-images',"click",function(e){
                 	 //visual iteractive for choose
                      $('.film-images').removeClass('film--choosed');
                      $(this).addClass('film--choosed');
@@ -541,6 +546,10 @@ function init_BookingOne() {
                      //data element set
                      movie.val(choosenFilm);
                      moviecode.val(choosenFilmCode);
+                     
+                     getTimeOfMovie(moviecode.val(),date.val());
+                  
+                     
                 });
      
 
