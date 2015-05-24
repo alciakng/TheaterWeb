@@ -98,9 +98,16 @@ exports.book2_seat = function(req,res){
 	var prevData = url_parts.query;
 	console.log(prevData);
 	
+
+	var seat_select_sql ="select * from SEAT,PERFORMANCE_SEAT where SEAT.SEATCODE=PERFORMANCE_SEAT.SEATCODE and SEAT.SCREENCODE=:screencode and PERFORMANCE_SEAT.TIMECODE=:timecode order by SEAT.SEATROW,LENGTH(SEAT.SEATCOL),SEAT.SEATCOL";
 	
+	//bind variables
+	var bindvars ={
+			screencode:prevData.choosen_screen,
+			timecode:prevData.choosen_screen+prevData.choosen_date+prevData.choosen_count
+	};
 	
-	var seat_select_sql ="select * from SEAT ,PERFORMANCE_SEAT where SEAT.SEATCODE=PERFORMANCE_SEAT.SEATCODE and SEAT.SCREENCODE=:1 order by SEAT.SEATROW,LENGTH(SEAT.SEATCOL),SEAT.SEATCOL";
+	console.log(bindvars.timecode);
 	
 	oracledb.getConnection(dbConfig,
 			function(err,connection){
@@ -111,9 +118,9 @@ exports.book2_seat = function(req,res){
 				 //스크린코드가 :screencode이고 seatrow와 seatcol에 대해 오름차순으로 정렬하여 출력하는 쿼리.
 				 connection.execute(
 				 seat_select_sql,
-			    [prevData.choosen_screen]
+				 bindvars
 			    ,
-			    {outFormat: oracledb.OBJECT}
+			    {outFormat: oracledb.OBJECT,maxRows:1000}
 			    ,
 				 function(err,result){
 			    	//console.log(result);
@@ -122,6 +129,7 @@ exports.book2_seat = function(req,res){
 						console.log(err.message);
 						return;
 					}
+					console.log(result);
 					
 					//result array mapping
 					var mappedArr=new Array();
@@ -139,7 +147,7 @@ exports.book2_seat = function(req,res){
 						}
 					});
 					mappedArr.push(tempArr);
-					console.log(mappedArr);
+					
 					
 					res.render('book/book2-seat',{
 						seatRows : mappedArr,

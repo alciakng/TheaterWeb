@@ -5,6 +5,7 @@ var movieController = controllers('movieController.js');
 var bookController = controllers('bookController.js');
 var userController = controllers('userController.js');
 var paypalController = controllers('paypalController.js');
+var managerController = controllers('managerController.js');
 
 //auth-middleware
 var auth = require('./middlewares/auth.js');
@@ -60,7 +61,7 @@ module.exports = function(app,passport){
 		//로그인에 실패했을 때
 		app.get('/failLogin',userController.failLogin);
 		//facebook-auth
-		app.get('/auth/facebook', passport.authenticate('facebook',{scope:['email','user_birthday'], display: 'popup' }));
+		app.get('/auth/facebook', passport.authenticate('facebook',{display: 'popup',scope:['email','user_birthday'] }));
 		//facebook-auth-callback
 		app.get('/auth/facebook/callback',
 		    passport.authenticate('facebook', { successRedirect: '/',
@@ -77,6 +78,7 @@ module.exports = function(app,passport){
 		
 		app.get('/user/getWatchList',auth.requiresLogin,userController.getWatchList);
 		app.get('/user/addWatchList',auth.requiresLogin,userController.addWatchList);
+		app.get('/user/bookingList',auth.requiresLogin,userController.bookingList);
 		
 	//paypal-router
 		app.get('/paypalCreate',paypalController.paypalCreate);
@@ -86,6 +88,21 @@ module.exports = function(app,passport){
 	//index-router
 		app.get('/',indexController.index);
 		app.get('/contact',indexController.contact);
+		app.get('/screen',indexController.screen);
+		app.get('/CheckReservationPage',indexController.checkReservationPage);
+		app.post('/CheckReservation',indexController.checkReservation);
+		
+	//manager-router
+		app.get('/manager/index',managerController.index);
+		//app.post('/manager/addMovie',managerController.addMovie);
+		//app.post('/manager/modifyMovie',managerController.modifyMovie);
+		//app.post('/manager/addSeat',managerController.addSeat);
+		//app.post('/manager/modifySeat',managerController.modifySeat);
+		//app.post('/manager/addSchedule',managerController.addSchedule);
+		//app.post('/manager/modifySchedule',managerController.modifySchedule);
+		//app.post('/manager/reservation',managerController.reservation);
+		//app.post('/manager/statistics',managerController.statistics);
+		
 		
 	
 };

@@ -16,7 +16,7 @@ var oracledb = require('oracledb');
 module.exports = new FacebookStrategy({
     clientID: "1439701713010669",
     clientSecret: "d00af0f7c24d7921d6158d37d5f48481",
-    callbackURL:"/auth/facebook/callback"
+    callbackURL: "/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {
 	  
@@ -43,7 +43,7 @@ module.exports = new FacebookStrategy({
 		 birth : format_date,
 		 sex : sex
 		 }
-		 	
+		
 		  oracledb.getConnection(dbConfig,
 	  			function(err,connection){
 	  				 if (err) {

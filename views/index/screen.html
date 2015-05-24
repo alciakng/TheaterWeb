@@ -1,0 +1,34 @@
+   {% extends '../layout/indexLayout.html' %}
+   {% block content %}
+        
+        <!-- Main content -->
+        <section class="container">
+            <div class="overflow-wrapper">
+                <div class="col-sm-12">
+                
+                    <h2 class="page-heading">상영관</h2>
+                   {% for screen in screens %} 
+                    <!-- News post article-->
+	                    <article class="post post--news">
+	                        <a href='#' class="post__image-link">
+	                            <img alt='' src="{{'/image/'+screen.IMAGE}}">
+	                        </a>
+	
+	                        <h1><a href="single-page-full.html" class="post__title-link">{{screen.SCREENNAME}}</a></h1>
+	
+	                        <div class="wave-devider"></div>
+	
+	                        <p class="post__text">{{screen.SUMMARY}}</p> 
+	
+	                        <div class="devider-huge"></div>
+	                    </article> 
+                    <!-- end news post article-->
+					{% endfor %}
+                   
+                </div>
+            </div>
+        </section>
+        
+        <div class="clearfix"></div>
+
+   {% endblock %}

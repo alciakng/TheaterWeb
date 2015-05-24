@@ -55,9 +55,10 @@
         	<input type="hidden" name='method' value='paypal'>
         	<input type="hidden" name='currency' value='USD'>  
 			<input type="hidden" name="charset" value="UTF-8"/>
-            <input type='hidden' name='using_mileage' class='using_mileage'>
+            <input type='hidden' name='using_mileage' class='using_mileage' value=0>
             <input type='hidden' name='discount_cost' class="discount_cost" value='{{prevData.total_cost}}'>
             <input type='hidden' name='total_cost' value='{{prevData.total_cost}}'>
+            <input type='hidden' name='screen_cost'  value={{prevData.screen_cost}}>
             <input type='hidden' name='choosen_number' value='{{prevData.choosen_number}}'>
             <input type='hidden' name='choosen_sits' value='{{prevData.choosen_sits}}'>
 			<input type='hidden' name='choosen_moviecode' value='{{prevData.choosen_moviecode}}'>

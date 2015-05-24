@@ -38,7 +38,14 @@ module.exports  = new LocalStrategy({
 	        							return done(err,req.flash('signUpMessage','인터넷 연결을 확인하세요'));
 	        						}
 	        						if(user.rows.length>0){
-	        							return done(null,null,req.flash('signUpMessage','이미 존재하는 이메일 입니다..'));
+	        							connection.release(function(err){
+	        								 if(err){
+	        									 console.log(err.message);
+	        									 return;
+	        								 }
+	        							 return done(null,null,req.flash('signUpMessage','이미 존재하는 이메일 입니다..'));
+	        							 });
+	        							
 	        						}
 	        						else{
 	        							console.log(req.body);
@@ -54,8 +61,9 @@ module.exports  = new LocalStrategy({
 		        									 console.log(err.message);
 		        									 return;
 		        								 }
+		        								 return done(null,req.body,req.flash('signUpMessage','회원가입성공'));	
 		        							 });
-		        							 return done(null,req.body,req.flash('signUpMessage','회원가입성공'));	
+		        							 
 		        							
 	        								
 	        						     });

@@ -378,13 +378,13 @@ function getTimeOfMovie(moviecode,date){
 	
 	   $.get('/movie/time',{moviecode:moviecode,date:date},function(data){
     		  $('.time-select--wide').empty();
-    		  
+    		  	
           		data.forEach(function(parent_element,parent_index,parent_array){
           			
-          			$('.time-select--wide').append('<div class="time-select__group group'+parent_index+'">'+'<div class="col-sm-3">'+'<p class="time-select__place">'+(parent_index+1)+'관</p>'+'</div>'+'<ul class="col-sm-6 items-wrap">'+'</ul>'+'</div>');
+          			$('.time-select--wide').append('<div class="time-select__group group'+parent_index+'">'+'<div class="col-sm-3">'+'<p class="time-select__place">'+parent_array[parent_index][0].SCREENCODE+'관</p>'+'</div>'+'<ul class="col-sm-6 items-wrap">'+'</ul>'+'</div>');
           		
           			parent_element.forEach(function(child_element,child_index,child_array){
-          				$('.group'+parent_index).children('.items-wrap').append('<li class="time-select__item" data-time="'+child_element.STARTTIME+'"data-screen="S'+(parent_index+1)+'" data-moviecount="'+child_element.MOVIECOUNT+'">'+child_element.STARTTIME+'</li>'+'</ul>'+'</div>');
+          				$('.group'+parent_index).children('.items-wrap').append('<li class="time-select__item" data-time="'+child_element.STARTTIME+'"data-screen="'+child_element.SCREENCODE+'" data-moviecount="'+child_element.MOVIECOUNT+'">'+child_element.STARTTIME+'</li>'+'</ul>'+'</div>');
           			});
           		});
           });
@@ -401,6 +401,7 @@ function init_BookingOne() {
                     date = $('.choosen_date'),
                     time = $('.choosen_time'),
                     screen = $('.choosen_screen'),
+                    screencost = $('.screen_cost'),
                     count = $('.choosen_count');
     
     //1.만약 세션에 무비가 설정되있으면 하는 동작.
@@ -563,7 +564,26 @@ function init_BookingOne() {
                     //data element init
                     var choosenTime = $(this).attr('data-time');
                     var choosenScreen = $(this).attr('data-screen');
+                   
                     var choosenCount = $(this).attr('data-moviecount');
+                    
+                    
+                    //screencost 계산
+                    switch(choosenScreen){
+                    case 'SUPERPLEX1':case'SUPERPLEX2':case'SUPERPLEX3' :
+                    	screencost.val(9000);
+                    	break;
+                    case 'SUPERSOUND1':case'SUPERSOUND2' :
+                    	screencost.val(12000);
+                    	break;
+                    case 'VIBRATION1':case'VIBRATION2' :
+                    	screencost.val(12000);
+                    	break;
+                    case 'SUPER4D' :
+                    	screencost.val(15000);
+                    	break;
+                    }
+                    
                  
                      $('.choose-indector--time').find('.choosen-area').text(choosenScreen+"관, "+choosenTime);
 
@@ -631,8 +651,9 @@ function init_BookingTwo () {
     // var for booking;
                 var numberTicket = $('.choosen_number'),
                     sumTicket = $('.total_cost'),
+                    screenCost = $('.screen_cost').val()*1,
                     sits = $('.choosen_sits');
-
+  
     //3. Choose sits (and count price for them)
     			//users choose sits
 
@@ -654,22 +675,9 @@ function init_BookingTwo () {
 
                             $('.web-checked-place').prepend('<span class="choosen-place '+place+'">'+ place +'</span>');
 
-                            switch(ticketPrice)
-                                {
-                                case '9000':
-                                  sum += 9000;
-                                  cheap += 1;
-     
-                                  break;
-                                case '20':
-                                  sum += 20;
-                                  middle += 1;
-                                  break;
-                                case '30':
-                                  sum += 30;
-                                  expansive += 1;
-                                  break;
-                            }
+                            sum += screenCost;
+                            
+                            
 
                             $('.checked-result').text(sum);
                         }
@@ -680,23 +688,9 @@ function init_BookingTwo () {
                         
                         $('.'+place+'').remove();
 
-                        switch(ticketPrice)
-                                {
-                                case '9000':
-                                  sum -= 9000;
-                                  cheap -= 1;
-                                  break;
-                                case '20':
-                                  sum -= 20;
-                                  middle -= 1;
-                                  break;
-                                case '30':
-                                  sum -= 30;
-                                  expansive -= 1;
-                                  break;
-                            }
+                       sum-=screenCost;
 
-                        $('.checked-result').text(sum+"원")
+                        $('.checked-result').text(sum)
                     }
 
                     //data element init
@@ -787,25 +781,14 @@ function init_BookingTwo () {
                 $('.sits-area--mobile .mobile-checked-place').prepend('<span class="choosen-place" data-sit="'+ch_sits+'">'+ ch_sits +'</span>');
 
                 if (row ==  "A" || row ==  "B" || row ==  "C" || row ==  "D"){
-                    ticketPrice = 10;
+                    ticketPrice = screenCost;
                 } else if (row ==  "E" || row ==  "F" || row ==  "G" || row ==  "I"){
-                    ticketPrice = 20;
+                    ticketPrice = screenCost;
                 } else if (row ==  "J" || row ==  "K" || row ==  "L"){
-                    ticketPrice = 30;
+                    ticketPrice = screenCost;
                 }
 
-                switch(ticketPrice)
-                        {
-                        case 9000:
-                            sum += 9000;
-                            break;
-                        case 20:
-                            sum += 20;
-                            break;
-                        case 30:
-                            sum += 30;
-                            break;
-                }
+                sum += screenCost;
 
                 $('.checked-result').text(sum);
 
@@ -830,27 +813,17 @@ function init_BookingTwo () {
                     	$(this).parent().remove();
 
                         if (row ==  "A" || row ==  "B" || row ==  "C" || row ==  "D"){
-                            ticketPrice = 10;
+                            ticketPrice = screenCost;
                         } else if (row ==  "E" || row ==  "F" || row ==  "G" || row ==  "I"){
-                            ticketPrice = 20;
+                            ticketPrice = screenCost;
                         } else if (row ==  "J" || row ==  "K" || row ==  "L"){
-                            ticketPrice = 30;
+                            ticketPrice = screenCost;
                         }
 
-                        switch(ticketPrice)
-                        {
-                                case 9000:
-                                    sum -= 9000;
-                                    break;
-                                case 20:
-                                    sum -= 20;
-                                    break;
-                                case 30:
-                                    sum -= 30;
-                                    break;
-                        }
+                        sum -= screenCost;
 
                         $('.checked-result').text(sum);
+                        
                     }
 
                     

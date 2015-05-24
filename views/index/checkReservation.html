@@ -1,0 +1,25 @@
+  {% extends '../layout/default.html' %}
+  {% block content %}
+        
+        <!-- Main content -->
+        <section class="container">
+            <div class="order-container">
+                <div class="order">
+             
+                    <span class="order__descript">본인의 휴대폰 번호를 입력해주세요.</span>
+                     <form class="login" method="post" action="/checkReservation" novalidate="">
+                     	<div class="field-wrap">
+	                    	<input type="text" placeholder="휴대폰번호" name="phone_number" class="login__input invalid_field">
+                   	    </div>
+                   	    <br>
+                    	<div class="order__control">
+                    		<button type='submit' class="order__control-btn">조회하기</button>
+                    	</div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+   {%endblock%}
+   
+   

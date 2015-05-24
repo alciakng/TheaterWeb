@@ -43,9 +43,9 @@
                                 <img alt='' src="{{'/image/'+movie.IMAGE}}">
                             </div>
                             <div class="movie__feature">
-                                <a href="#" class="movie__feature-item movie__feature--comment">123</a>
-                                <a href="#" class="movie__feature-item movie__feature--video">7</a>
-                                <a href="#" class="movie__feature-item movie__feature--photo">352</a>
+                                <a href="/movie/info?moviecode={{movie.MOVIECODE}}" class="movie__feature-item movie__feature--comment">댓글</a>
+                                
+                                <a href="/movie/info?moviecode={{movie.MOVIECODE}}" class="movie__feature-item movie__feature--photo">사진</a>
                             </div>
                     </div>
 
@@ -59,15 +59,15 @@
                             <p class="movie__option"><strong>감독 : </strong><a href="#">{{movie.DIRECTOR}}</a></p>
                             <p class="movie__option"><strong>배우들 : </strong><a href="#">{{movie.ACTORS}}</p>
                             <p class="movie__option"><strong>연령 : </strong><a href="#">{{movie.RATING}}</a></p>
-							<p class="movie__option"><strong>내용 : </strong><a href="#">{{movie.SUMMARY}}</a></p>
+							<p class="movie__option"><strong>줄거리 : </strong><a href="#"><br><br>{{movie.SUMMARY}}</a></p>
                             <div class="movie__btns">
                                 <a href="/book/init" onclick="sessionStorage.setItem('movie','{{movie.MOVIECODE}}')" class="btn btn-md btn--warning">예약하기 <span class="hidden-sm"><small>이 영화를 예약하려면 클릭하세요.</small></span></a>
-                                <a href="/user/addWatchList?moviecode={{movie.MOVIECODE}}" class="watchlist">워치리스트에 담기</a>
+                                <a href="/user/addWatchList?moviecode={{movie.MOVIECODE}}"  class="watchlist">워치리스트에 담기</a>
                             </div>
 
                             <div class="preview-footer">
                                 <div class="movie__rate">
-                                <div id='score' class="score"></div>
+                                <div id='score' data-moviecode='{{movie.MOVIECODE}}' class="score"></div>
                                 <span class="movie__rate-number">{{movie.VOTES+'명이 평가'}}</span>
                                 <span class="movie__rating">{{movie.AVGSCORE}}</span>
                                 </div>
@@ -76,76 +76,7 @@
 
                     <div class="clearfix"></div>
                     
-                    <!-- Time table (choose film start time)-->
-                    <div class="time-select">
-                        <div class="time-select__group group--first">
-                            <div class="col-sm-4">
-                                <p class="time-select__place">Cineworld</p>
-                            </div>
-                            <ul class="col-sm-8 items-wrap">
-                                <li class="time-select__item" data-time='09:40'>09:40</li>
-                                <li class="time-select__item" data-time='13:45'>13:45</li>
-                                <li class="time-select__item active" data-time='15:45'>15:45</li>
-                                <li class="time-select__item" data-time='19:50'>19:50</li>
-                                <li class="time-select__item" data-time='21:50'>21:50</li>
-                            </ul>
-                        </div>
-
-                        <div class="time-select__group">
-                            <div class="col-sm-4">
-                                <p class="time-select__place">Empire</p>
-                            </div>
-                            <ul class="col-sm-8 items-wrap">
-                                <li class="time-select__item" data-time='10:45'>10:45</li>
-                                <li class="time-select__item" data-time='16:00'>16:00</li>
-                                <li class="time-select__item" data-time='19:00'>19:00</li>
-                                <li class="time-select__item" data-time='21:15'>21:15</li>
-                                <li class="time-select__item" data-time='23:00'>23:00</li>
-                            </ul>
-                        </div>
-
-                        <div class="time-select__group">
-                            <div class="col-sm-4">
-                                <p class="time-select__place">Curzon</p>
-                            </div>
-                            <ul class="col-sm-8 items-wrap">
-                                <li class="time-select__item" data-time='09:00'>09:00</li>
-                                <li class="time-select__item" data-time='11:00'>11:00</li>
-                                <li class="time-select__item" data-time='13:00'>13:00</li>
-                                <li class="time-select__item" data-time='15:00'>15:00</li>
-                                <li class="time-select__item" data-time='17:00'>17:00</li>
-                                <li class="time-select__item" data-time='19:0'>19:00</li>
-                                <li class="time-select__item" data-time='21:0'>21:00</li>
-                                <li class="time-select__item" data-time='23:0'>23:00</li>
-                                <li class="time-select__item" data-time='01:0'>01:00</li>
-                            </ul>
-                        </div>
-
-                        <div class="time-select__group">
-                            <div class="col-sm-4">
-                                <p class="time-select__place">Odeon</p>
-                            </div>
-                            <ul class="col-sm-8 items-wrap">
-                                <li class="time-select__item" data-time='10:45'>10:45</li>
-                                <li class="time-select__item" data-time='16:00'>16:00</li>
-                                <li class="time-select__item" data-time='19:00'>19:00</li>
-                                <li class="time-select__item" data-time='21:15'>21:15</li>
-                                <li class="time-select__item" data-time='23:00'>23:00</li>
-                            </ul>
-                        </div>
-
-                        <div class="time-select__group group--last">
-                            <div class="col-sm-4">
-                                <p class="time-select__place">Picturehouse</p>
-                            </div>
-                            <ul class="col-sm-8 items-wrap">
-                                <li class="time-select__item" data-time='17:45'>17:45</li>
-                                <li class="time-select__item" data-time='21:30'>21:30</li>
-                                <li class="time-select__item" data-time='02:20'>02:20</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- end time table-->
+                   
 
                 </div>
            

@@ -46,6 +46,60 @@ exports.failLogin = function(req,res){
 	res.send({loginMessage : req.flash('loginMessage'),matching:"fail"});	
 }
 
+//예매목록 가져오기.
+exports.bookingList = function(req,res){
+	console.log("예매목록 불러오기");
+	var select_from_booking_and_bookedseats = "select to_char(time.moviedate, 'yy-mm-dd') as moviedate,movie.moviecode,movie.name,movie.image,movie.runningtime,booking.bookingcode,booking.screencode,booking.totalprice,booking.seatcount,booked_seats.seatcode,time.starttime from booking,booked_seats,movie,time where booking.bookingcode =booked_seats.bookingcode and movie.moviecode=booking.moviecode and booking.timecode= time.timecode and email=:email"
+	
+	oracledb.getConnection(dbConfig,
+			function(err,connection){
+				 if (err) {
+				      console.error(err.message);
+				      return;
+				 }
+				 connection.execute(select_from_booking_and_bookedseats,[req.user.EMAIL],{outFormat:oracledb.OBJECT},function(err,result){
+					 if (err) {
+						  console.log("워치리스트 불러오기 에러");
+					      console.error(err.message);
+					      return;
+					 }
+					 
+					 connection.release(function(err){
+						 if(err){
+							 console.log("워치리스트 불러올때 릴리스 에러");
+							 console.err(err.messge);
+							 return; 
+						 }
+						 console.log(result.rows);
+						 
+						//make mapped Array of bookings; 
+						 var mappedArr=new Array();
+						 var tempArr=new Array();
+						 if(result.rows.length!=0) var bookingcode =result.rows[0].BOOKINGCODE;
+						 console.log(bookingcode);
+							
+							result.rows.forEach(function(element,index,array){
+								
+								if(bookingcode==element.BOOKINGCODE) tempArr.push(element);
+								else {
+									mappedArr.push(tempArr);
+									bookingcode =element.BOOKINGCODE;
+									tempArr=[];
+									tempArr.push(element);
+								}
+							});
+							mappedArr.push(tempArr);
+							console.log(mappedArr);
+					
+						 
+						 res.render('user/bookingList',{bookingLists: mappedArr});
+					 });
+					 
+					 
+				 });
+	});
+	
+}
 
 //워치리스트 불러오기 
 exports.getWatchList = function(req,res){

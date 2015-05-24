@@ -15,6 +15,11 @@
                     <ul id="navigation">
                         <li>
                             <span class="sub-nav-toggle plus"></span>
+                            <a href="/">홈</a>
+                  
+                        </li>
+                        <li>
+                            <span class="sub-nav-toggle plus"></span>
                             <a href="/movie/list">영화</a>
                             
                             <ul>
@@ -24,12 +29,29 @@
                         </li>
                         <li>
                             <span class="sub-nav-toggle plus"></span>
-                            <a href="/screenInfo">영화관</a>
+                            <a href="/screen">영화관</a>
                   
                         </li>
-                   		 <li>
+                        <li>
+                            <span class="sub-nav-toggle plus"></span>
+                            <a href="/book/init">예매</a>
+                            <ul>
+                                <li class="menu__nav-item"><a href="/book/init">예매하기</a></li>
+                                <li class="menu__nav-item"><a href="/checkReservationPage">비회원 예매조회</a></li>
+                            </ul>
+                        </li>
+                   		<li>
                             <span class="sub-nav-toggle plus"></span>
                             <a href="/contact">오시는 길</a>
+                        </li>
+                        
+                        <li>
+                            <span class="sub-nav-toggle plus"></span>
+                            <a href="/manager/index">관리자</a>
+                            <ul>
+                                <li class="menu__nav-item"><a href="/manager/login">관리자 로그인</a></li>
+                                <li class="menu__nav-item"><a href="/manager/signUp">관리자 가입</a></li>
+                            </ul>
                         </li>
                         
                     </ul>
@@ -46,7 +68,7 @@
 		                    </a>
 	                        <ul class="auth__function">
 	                            <li><a href="/user/getWatchList" class="auth__function-item">워치리스트</a></li>
-	                            <li><a href="#" class="auth__function-item">예매목록</a></li>
+	                            <li><a href="/user/bookingList" class="auth__function-item">예매목록</a></li>
 	                            <li><a href="/logout" class="auth__function-item">로그아웃</a></li>
 	                        </ul>
                     	 </div>

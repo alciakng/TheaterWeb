@@ -27,11 +27,11 @@
                             <p class="movie__option"><strong>연령제한 : </strong><a href="#">{{movieInfo.RATING}}</a></p>
                             <p class="movie__option"><strong>배급사 : </strong><a href="#">{{movieInfo.COMPANY}}</a></p>
 
-                            <a href="#" class="comment-link">평가들 : 15</a>
 
                             <div class="movie__btns movie__btns--full">
-                                <a href="#" class="btn btn-md btn--warning">예약하기</a>
-                                <a href="{{'/user/watchlist?moviecode='+movieInfo.MOIVECODE}}" class="watchlist">워치리스트에 담기</a>
+                                <a href="/book/init" onclick="sessionStorage.setItem('movie','{{movie.MOVIECODE}}')" class="btn btn-md btn--warning">예약하기</a>
+                                
+                                <a href="/user/addWatchList?moviecode={{movieInfo.MOVIECODE}}" class="watchlist">워치리스트에 담기</a>
                             </div>
 
                             

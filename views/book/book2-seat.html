@@ -15,17 +15,16 @@
                 </div>
             </div>
                 <div class="order-step-area">
-                    <div class="order-step first--step order-step--disable ">1. What &amp; Where &amp; When</div>
-                    <div class="order-step second--step">2. Choose a sit</div>
+                    <div class="order-step first--step order-step--disable ">1. 영화, 상영관, 일정 선택</div>
+                    <div class="order-step second--step">2. 좌석선택</div>
                 </div>
             
             <div class="choose-sits">
                 <div class="choose-sits__info choose-sits__info--first">
                     <ul>
-                        <li class="sits-price marker--none"><strong>Price</strong></li>
-                        <li class="sits-price sits-price--cheap">$10</li>
-                        <li class="sits-price sits-price--middle">$20</li>
-                        <li class="sits-price sits-price--expensive">$30</li>
+                        <li class="sits-price marker--none"><strong>가격</strong></li>
+                        <li class="sits-price sits-price--cheap">{{prevData.screen_cost}}원</li>
+                       
                     </ul>
                 </div>
 
@@ -67,7 +66,7 @@
                                  	{% else %}
                                 <span class="sits__place sits-price--cheap sits-state--not"
                                 	{% endif %}
-                                 data-place='{{seat.SEATROW+seat.SEATCOL}}' data-price='9000'>{{seat.SEATROW+seat.SEATCOL}}</span>
+                                 data-place='{{seat.SEATROW+seat.SEATCOL}}' data-price='{{prevData.screen_cost}}'>{{seat.SEATROW+seat.SEATCOL}}</span>
                            		{%endfor%}
                             </div>
                          {%endfor%}
@@ -79,7 +78,7 @@
                                 
                             </div>
                             <div class="checked-result">
-                                $0
+                                0
                             </div>
                         </aside>
                         <footer class="sits__number">
@@ -156,7 +155,7 @@
                                 <span class="choosen-place"></span>
                             </div>
                             <div class="checked-result">
-                                0원
+                                0
                             </div>
                     </aside>
 
@@ -184,6 +183,7 @@
             <input type='hidden' name='choosen_number' class="choosen_number">
             <input type='hidden' name='total_cost' class="total_cost">
             <input type='hidden' name='choosen_sits' class="choosen_sits">
+            <input type='hidden' name='screen_cost' class='screen_cost' value={{prevData.screen_cost}}>
 			<input type='hidden' name='choosen_moviecode' value='{{prevData.choosen_moviecode}}'>
 			<input type='hidden' name='choosen_movie' value='{{prevData.choosen_movie}}' >
             <input type='hidden' name='choosen_date' value='{{prevData.choosen_date}}'>

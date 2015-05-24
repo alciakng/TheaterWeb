@@ -50,7 +50,15 @@ exports.getTimeOfMovie = function(req,res){
 						});
 						mappedArr.push(tempArr);
 						console.log(mappedArr);
-						res.send(mappedArr);
+						
+						connection.release(function(err){
+							if(err){
+								console.error(err.message);
+								return;
+							}
+							res.send(mappedArr);
+						});
+						
 			    	});
 	          });
 }

@@ -23,7 +23,7 @@ exports.paypalCreate = function (req, res) {
     	 "item_list": {
              "items": [{
             	 name:'좌석',
-            	 price:'9000',
+            	 price:reservationInfo.screen_cost,
             	 currency:'USD',
             	 quantity:reservationInfo.choosen_number
              }]

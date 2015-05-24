@@ -1,0 +1,54 @@
+{% extends '../layout/default.html' %}
+  {% block content %}
+        
+        <!-- Main content -->
+        <section class="container">
+            <div class="overflow-wrapper">
+                <div class="col-sm-12">
+                
+                    <h2 class="page-heading">예매목록</h2>
+                    {% for bookingList in bookingLists %}
+                    <!-- News post article-->
+                    <div class="movie movie--preview release">
+                     <div class="col-sm-5 col-md-3">
+                            <div class="movie__images">
+                                <img alt='' src="{{'/image/'+bookingList[0].IMAGE}}">
+                            </div>
+                            <div class="movie__feature">
+                             <a href="/movie/info?moviecode={{bookingList[0].MOVIECODE}}" class="movie__feature-item movie__feature--comment">댓글</a>
+                                
+                                <a href="/movie/info?moviecode={{bookingList[0].MOVIECODE}}" class="movie__feature-item movie__feature--photo">사진</a>
+                            </div>
+                    </div>
+
+                    <div class="col-sm-7 col-md-9">
+                            <a href='/movie/info?moviecode={{bookingList[0].MOVIECODE}}' class="movie__title link--huge">{{bookingList[0].NAME}}</a>
+                            <p class="movie__time">{{bookingList[0].RUNNINGTIME}}</p>
+
+                            <p class="movie__option"><strong>예약번호 : </strong><a href="#">{{bookingList[0].BOOKINGCODE}}</a></p>
+                            <p class="movie__option"><strong>상영관 : </strong><a href="#">{{bookingList[0].SCREENCODE}}관</a></p>
+                            <p class="movie__option"><strong>티켓 수 : </strong>{{bookingList[0].SEATCOUNT}}</p>
+                            <p class="movie__option"><strong>날짜 : </strong><a href="#">{{bookingList[0].MOVIEDATE}}</a></p>
+                            <p class="movie__option"><strong>시간 : </strong><a href="#">{{bookingList[0].STARTTIME}}</a></p>
+                            <p class="movie__option"><strong>결제가격 : </strong><a href="#">{{bookingList[0].TOTALPRICE}}</p>
+                           
+							<p class="movie__option"><strong>좌석 : </strong><a href="#">{%for seat in bookingList %} {{seat.SEATCODE}} {% endfor %}</a></p>
+							
+                           
+                    </div>
+
+                    <div class="clearfix"></div>
+                    
+                   
+
+               		 </div>
+                    
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        
+        <div class="clearfix"></div>
+
+       {% endblock %}
+       

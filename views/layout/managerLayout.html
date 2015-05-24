@@ -1,0 +1,13 @@
+<!doctype html>
+<html>	
+{% include '../include/head.html' %}
+<body>
+<div id="wrapper">
+   {% include '../include/managerHeader.html' %}  
+   {% include '../include/searchBar.html' %}
+   {% block content %}{% endblock %}
+</div>
+	{% include '../include/script.html' %}
+	{% block customScript %}{% endblock %}
+</body>
+</html>
