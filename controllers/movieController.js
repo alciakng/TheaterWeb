@@ -67,7 +67,12 @@ exports.getTimeOfMovie = function(req,res){
 exports.searchMovie = function(req,res){
 	var keyword = req.param('search__text')+'%';
 	
-	var sql = "select * from movie where name like :keyword1 or director like :keyword2 or genre like :keyword3 ";
+	var search_movie = "select to_char(avg(r.score),'fm90.0') as avgscore ,count(r.moviecode) as votes,r.moviecode,m.name,m.genre,m.runningtime,m.director,m.rating,m.company,m.country,m.actors,m.image, m.summary, to_char(m.opendate, 'yy-mm-dd') as open_date  "
+		   +"from rating r, movie m "
+		   +"where r.moviecode =m.moviecode "
+		   +"and m.name like :keyword1 or m.director like :keyword2 or m.genre like :keyword3 "
+		   +"group by r.moviecode,m.name,m.genre,m.runningtime,m.director,m.rating,m.company,m.country,m.actors,m.image,m.opendate,m.summary"
+	
 	
 	oracledb.getConnection(dbConfig,
 			function(err,connection){
@@ -75,7 +80,7 @@ exports.searchMovie = function(req,res){
 				      console.error(err.message);
 				      return;
 				 }
-				 connection.execute(sql,[keyword,keyword,keyword],{outFormat: oracledb.OBJECT},
+				 connection.execute(search_movie,[keyword,keyword,keyword],{outFormat: oracledb.OBJECT},
 					function(err,result){
 				    	console.log(result);
 						if(err){
@@ -87,6 +92,7 @@ exports.searchMovie = function(req,res){
 								console.log(err.message);
 								return;
 							}
+							console.log(result.rows);
 							res.render('movie/listOfMovie',{
 								movies : result.rows
 							}); 
@@ -268,13 +274,10 @@ exports.reply = function(req,res){
 	});
 }
 
-
-
 //show list of movie;
 exports.showListOfMovie = function(req,res){
 
 	var genre =(req.param('genre')!=undefined? req.param("genre")+"%" :"%");
-	
 	
 	console.log(genre);
 	
@@ -291,7 +294,6 @@ exports.showListOfMovie = function(req,res){
 		   +"order by ";
 	
 	select_movie_orderby_parameter+=(req.param('orderBy')=='OPENDATE'? "m.opendate DESC " : "avg(r.score) DESC")
-	
 	
 	
 	oracledb.getConnection(dbConfig,
@@ -320,4 +322,5 @@ exports.showListOfMovie = function(req,res){
 						
 			    	});
 	          });
+	
 }

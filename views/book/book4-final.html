@@ -22,7 +22,7 @@
                                 <span class="ticket__item ticket__price">총 가격 : <strong class="ticket__cost">{{reservationInfo.total_cost}}</strong></span>
                                 {% if req.user %}
                                 <span class="ticket__item ">마일리지 사용 : <strong class="ticket__cinema">{{'- '+reservationInfo.using_mileage}}</strong></span>
-                                <span class="ticket__item ">할인된 가격 : <strong class="ticket__cinema">{{'- '+reservationInfo.discount_cost}}</strong></span>
+                                <span class="ticket__item ">할인된 가격 : <strong class="ticket__cinema">{{reservationInfo.discount_cost}}</strong></span>
                                 {% endif %}
                                 
                             </div>
