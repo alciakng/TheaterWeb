@@ -46,7 +46,7 @@ exports.paypalCreate = function (req, res) {
   });
   
   console.log(payment.transactions[0].item_list.items);
-  if (method === 'paypal') {
+  if (method === 'paypal') {hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
     payment.payer.payment_method = 'paypal';
     payment.redirect_urls = {
       "return_url": req.protocol + "://" + req.get('host')+"/paypalExecute",

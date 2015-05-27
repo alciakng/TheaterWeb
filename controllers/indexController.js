@@ -7,6 +7,7 @@ var oracledb = require('oracledb');
 
 //show index page;
 exports.index = function(req,res){
+	
 
 	var select_movie_orderby_rating_score = "select to_char(avg(r.score),'fm90.0') as avgscore ,r.moviecode,m.name,m.genre,m.runningtime,m.director,m.rating,m.company,m.country,m.image,to_char(m.opendate, 'yy-mm-dd') as open_date "
 										   +"from rating r, movie m "
@@ -15,7 +16,7 @@ exports.index = function(req,res){
 										   +"order by avg(r.score) desc";
 	
 	var select_current_open_movie = "select * from movie";
-	
+		
 	oracledb.getConnection(dbConfig,
 			function(err,connection){
 				 if (err) {
@@ -36,7 +37,8 @@ exports.index = function(req,res){
 						      return;
 						 	}
 						 connection.release(function(err){
-							  if (err) {
+							  if (err) {  
+								  console.log("여긴가3");
 						      console.error(err.message);
 						      return;
 							 }
