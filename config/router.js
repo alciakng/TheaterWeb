@@ -12,8 +12,6 @@ var auth = require('./middlewares/auth.js');
 
 module.exports = function(app,passport){
 	
-	
-	
 	//movie-router
 		app.get('/movie/add', superController.showPage);
 		app.post('/movie/add',superController.addMovie);
@@ -67,10 +65,7 @@ module.exports = function(app,passport){
 		    passport.authenticate('facebook', { successRedirect: '/',
 		        failureRedirect: '/login' }));
 		
-		app.get('/logout', function(req, res){
-		    req.logout();
-		    res.redirect('/');
-		});
+		app.get('/user/logout', userController.logout);
 		app.get('/auth/twitter', passport.authenticate('twitter'));
 		app.get('/auth/twitter/callback', 
 			passport.authenticate('twitter', { successRedirect: '/',
@@ -79,7 +74,10 @@ module.exports = function(app,passport){
 		app.get('/user/getWatchList',auth.requiresLogin,userController.getWatchList);
 		app.get('/user/addWatchList',auth.requiresLogin,userController.addWatchList);
 		app.get('/user/bookingList',auth.requiresLogin,userController.bookingList);
-		
+		app.get('/user/cancelBooking',auth.requiresLogin,userController.cancelBooking);
+		app.get('/user/withdraw',auth.requiresLogin,userController.withdraw);
+		app.get('/user/info',auth.requiresLogin,userController.info);
+	
 	//paypal-router
 		app.get('/paypalCreate',paypalController.paypalCreate);
 		app.get('/paypalExecute',paypalController.paypalExecute);
@@ -89,20 +87,8 @@ module.exports = function(app,passport){
 		app.get('/',indexController.index);
 		app.get('/contact',indexController.contact);
 		app.get('/screen',indexController.screen);
+		
 		app.get('/CheckReservationPage',indexController.checkReservationPage);
 		app.post('/CheckReservation',indexController.checkReservation);
-		
-	//manager-router
-		app.get('/manager/index',managerController.index);
-		//app.post('/manager/addMovie',managerController.addMovie);
-		//app.post('/manager/modifyMovie',managerController.modifyMovie);
-		//app.post('/manager/addSeat',managerController.addSeat);
-		//app.post('/manager/modifySeat',managerController.modifySeat);
-		//app.post('/manager/addSchedule',managerController.addSchedule);
-		//app.post('/manager/modifySchedule',managerController.modifySchedule);
-		//app.post('/manager/reservation',managerController.reservation);
-		//app.post('/manager/statistics',managerController.statistics);
-		
-		
 	
 };

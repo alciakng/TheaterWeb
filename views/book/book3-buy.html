@@ -33,9 +33,15 @@
                 	 <h2 class="page-heading">요금</h2>	
                 	   <ul  class="book-result">
                 		 <li class="book-result__item">총 요금 :<span class="book-result__count booking-cost">{{reservationInfo.total_cost+'원'}}</span></li>
+                		 {% if reservationInfo.early_morning_fee !=0 %}
+                		 <li class="book-result__item">조조할인 :<span class="book-result__count booking-cost">{{reservationInfo.early_morning_fee+'원'}}</span></li>
+                		 {% endif %}
                 		 {% if req.user %}
                 		 <li class="book-result__item">마일리지 사용 :<span class="book-result__count booking-cost">{{reservationInfo.using_mileage+'원'}}</span></li>
                 		 <li class="book-result__item">할인된 금액 :<span class="book-result__count booking-cost">{{reservationInfo.discount_cost+'원'}}</span></li>
+                		 
+                		 {% else %}
+                		 <li class="book-result__item">할인된 금액 :<span class="book-result__count booking-cost">{{reservationInfo.total_cost-reservationInfo.early_morning_fee+'원'}}</span></li>
                 		 {% endif %}
                 	   </ul>
                 </div>

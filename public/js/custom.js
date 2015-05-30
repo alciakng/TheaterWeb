@@ -384,6 +384,7 @@ function getTimeOfMovie(moviecode,date){
           			$('.time-select--wide').append('<div class="time-select__group group'+parent_index+'">'+'<div class="col-sm-3">'+'<p class="time-select__place">'+parent_array[parent_index][0].SCREENCODE+'관</p>'+'</div>'+'<ul class="col-sm-6 items-wrap">'+'</ul>'+'</div>');
           		
           			parent_element.forEach(function(child_element,child_index,child_array){
+          				
           				$('.group'+parent_index).children('.items-wrap').append('<li class="time-select__item" data-time="'+child_element.STARTTIME+'"data-screen="'+child_element.SCREENCODE+'" data-moviecount="'+child_element.MOVIECOUNT+'">'+child_element.STARTTIME+'</li>'+'</ul>'+'</div>');
           			});
           		});
@@ -402,7 +403,8 @@ function init_BookingOne() {
                     time = $('.choosen_time'),
                     screen = $('.choosen_screen'),
                     screencost = $('.screen_cost'),
-                    count = $('.choosen_count');
+                    count = $('.choosen_count'),
+                    early_morning_fee=$('.early_morning_fee');
     
     //1.만약 세션에 무비가 설정되있으면 하는 동작.
     $("#"+sessionStorage.getItem("movie")).addClass('film--choosed');
@@ -567,11 +569,12 @@ function init_BookingOne() {
                    
                     var choosenCount = $(this).attr('data-moviecount');
                     
-                    
+                   
                     //screencost 계산
                     switch(choosenScreen){
                     case 'SUPERPLEX1':case'SUPERPLEX2':case'SUPERPLEX3' :
                     	screencost.val(9000);
+                    	
                     	break;
                     case 'SUPERSOUND1':case'SUPERSOUND2' :
                     	screencost.val(12000);
@@ -583,6 +586,18 @@ function init_BookingOne() {
                     	screencost.val(15000);
                     	break;
                     }
+                    
+                    var compareDelimiter1 = choosenTime.substr(0,1);
+                    var compareDelimiter2 = choosenTime.substr(1,2);
+                    //early morning fee계산
+                    if(compareDelimiter1=='0'){
+                			if(Math.abs(parseInt(compareDelimiter2)-5)<3){
+                			early_morning_fee.val(2000);
+                		}
+                	}
+                    
+               
+                	
                     
                  
                      $('.choose-indector--time').find('.choosen-area').text(choosenScreen+"관, "+choosenTime);
@@ -829,6 +844,7 @@ function init_BookingTwo () {
                     
 
             })
+            sumTicket.val(sum);
         }
 
 
@@ -838,19 +854,6 @@ function init_BookingTwo () {
 }   
 
 
-function init_BookingMileage(){
-	
-	$('.use-mileage').change(function(){
-		
-		if($(this).val()>3000) $(this).val()=0;
-		
-		
-		
-	});
-	
-	
-	
-}
 
 function init_CinemaList () {
     "use strict";
@@ -1193,13 +1196,19 @@ function init_MoviePage () {
         starOn  : 'star-on.svg' 
     });
     
-    //After rate callback
     $('.score').click(function () {
-        $(this).children().hide();
-        var score = $(this).children('[name=score]').val();
-        
-        $.post( "/movie/postRating",{score:score,moviecode:$(this).attr('data-moviecode')});
-        $(this).html('<span class="rates__done">감사합니다!<span>');
+    	var thisScore =$(this);
+        thisScore.children().hide();
+        var score = thisScore.children('[name=score]').val();
+       
+        $.post( "/movie/postRating",{score:score,moviecode:$(this).attr('data-moviecode')},function(data){
+        	
+        	 if(data.isLogedIn)
+        	 thisScore.html('<span class="rates__done">평가에 감사합니다!<span>');
+         	 else	
+             thisScore.html('<span class="rates__done">로그인이 필요합니다.<span>');
+        });
+       
     });
 
     //2. Swiper slider

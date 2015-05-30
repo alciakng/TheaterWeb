@@ -173,7 +173,8 @@ exports.book3_mileage = function(req,res){
 	console.log(prevData);
 	
 	res.render('book/book3-mileage.html',{
-		prevData:prevData
+		prevData:prevData,
+		mileage:req.user.MILEAGE
 	});
 }
 

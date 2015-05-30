@@ -1,0 +1,42 @@
+{% extends '../layout/default.html' %}
+  {% block content %}
+        
+        <!-- Main content -->
+        <section class="container">
+            <div class="overflow-wrapper">
+                <div class="col-sm-12">
+                
+                    <h2 class="page-heading">나의 정보</h2>
+    
+                    <!-- News post article-->
+                    <div class="movie movie--preview release">
+            
+
+                    <div class="col-sm-7 col-md-9">
+                            <a href='#' class="movie__title link--huge">{{info[0].NAME}}</a>
+                            
+							<br>
+							<br>
+                            <p class="movie__option"><strong>생년월일 : </strong><a href="#">{{info[0].BIRTH}}</a></p>
+                            <p class="movie__option"><strong>성별 : </strong><a href="#">{{info[0].SEX}}</a></p>
+                            <p class="movie__option"><strong>마일리지 : </strong>{{info[0].MILEAGE}}</p>
+                            <p class="movie__option"><strong>회원등급 : </strong><a href="#">{{info[0].CLASS}}</a></p>
+                        
+                           
+                    </div>
+
+                    <div class="clearfix"></div>
+                    
+                   
+
+               		 </div>
+             
+                </div>
+            </div>
+        </section>
+        
+        <div class="clearfix"></div>
+
+       {% endblock %}
+       
+>

@@ -92,6 +92,8 @@ exports.screen = function(req,res){
 }
 
 
+
+
 exports.checkReservationPage = function(req,res){
 	res.render('index/checkReservation');
 }

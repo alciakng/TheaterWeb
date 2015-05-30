@@ -60,9 +60,12 @@
 		                          my
 		                    </a>
 	                        <ul class="auth__function">
-	                            <li><a href="/user/getWatchList" class="auth__function-item">워치리스트</a></li>
+	                            <li><a href="/user/getWatchList" class="auth__function-item">관심리스트</a></li>
 	                            <li><a href="/user/bookingList" class="auth__function-item">예매목록</a></li>
-	                            <li><a href="/logout" class="auth__function-item">로그아웃</a></li>
+	                            <li><a href="/user/info" class="auth__function-item">나의정보</a></li>
+	                            <li><a href="/user/logout" class="auth__function-item">로그아웃</a></li>
+	                            
+	                            <li><a href="/user/withdraw" onclick="return confirm('지금 탈퇴하면 마일리지가 소멸됩니다. 탈퇴 하시겠습니까?')" class="auth__function-item">회원탈퇴</a></li>
 	                        </ul>
                     	 </div>
 				     {% else %}
@@ -72,3 +75,13 @@
                 </div>
             </div>
 </header>
+
+
+<script>
+function confirm_click()
+{
+return confirm("Are you sure ?");
+}
+
+
+</script>

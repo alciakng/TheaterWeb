@@ -23,7 +23,7 @@
             
                     <form id='contact-info' method='post' novalidate="" class="form contact-info">
                       <ul class="book-result">
-                        <li class="book-result__item">사용가능 마일리지 : <span class="book-result__count booking-cost">{{req.user.MILEAGE}}</span></li>
+                        <li class="book-result__item">사용가능 마일리지 : <span class="book-result__count booking-cost">{{mileage}}</span></li>
                       </ul>
                       
                        <br>
@@ -55,8 +55,8 @@
         	<input type="hidden" name='method' value='paypal'>
         	<input type="hidden" name='currency' value='USD'>  
 			<input type="hidden" name="charset" value="UTF-8"/>
-            <input type='hidden' name='using_mileage' class='using_mileage' value=0>
-            <input type='hidden' name='discount_cost' class="discount_cost" value='{{prevData.total_cost}}'>
+            <input type='hidden' name='using_mileage' class='using_mileage' value='0'>
+            <input type='hidden' name='discount_cost' class="discount_cost" value='{{prevData.total_cost-prevData.early_morning_fee}}'>
             <input type='hidden' name='total_cost' value='{{prevData.total_cost}}'>
             <input type='hidden' name='screen_cost'  value={{prevData.screen_cost}}>
             <input type='hidden' name='choosen_number' value='{{prevData.choosen_number}}'>
@@ -67,7 +67,8 @@
             <input type='hidden' name='choosen_screen' value='{{prevData.choosen_screen}}' >
             <input type='hidden' name='choosen_time' value='{{prevData.choosen_time}}' >
             <input type='hidden' name='choosen_count' value='{{prevData.choosen_count}}' >
-
+			<input type='hidden' name='early_morning_fee' value='{{prevData.early_morning_fee}}' >
+			
             <div class="booking-pagination">
                     <button type="submit" class="booking-pagination__next">
                         <span class="arrow__text arrow--next">다음 단계</span>
@@ -88,8 +89,8 @@
        				
        				
        				if($(this).val()>{{req.user.MILEAGE}}) $(this).val(0);
-       				$('#discountPrice').text({{prevData.total_cost}}-$(this).val());
-       				$('.discount_cost').val({{prevData.total_cost}}-$(this).val());
+       				$('#discountPrice').text({{prevData.total_cost-prevData.early_morning_fee}}-$(this).val());
+       				$('.discount_cost').val({{prevData.total_cost-prevData.early_morning_fee}}-$(this).val());
        				$('.using_mileage').val($(this).val());
        				
        				if($('.discount_cost').val()==0){

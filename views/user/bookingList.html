@@ -7,6 +7,7 @@
                 <div class="col-sm-12">
                 
                     <h2 class="page-heading">예매목록</h2>
+                    {% if bookingLists[0].length!=0 %}
                     {% for bookingList in bookingLists %}
                     <!-- News post article-->
                     <div class="movie movie--preview release">
@@ -33,7 +34,9 @@
                             <p class="movie__option"><strong>결제가격 : </strong><a href="#">{{bookingList[0].TOTALPRICE}}</p>
                            
 							<p class="movie__option"><strong>좌석 : </strong><a href="#">{%for seat in bookingList %} {{seat.SEATCODE}} {% endfor %}</a></p>
-							
+							<div class="movie__btns">
+                                <a href="/user/cancelBooking?bookingcode={{bookingList[0].BOOKINGCODE}}&totalprice={{bookingList[0].TOTALPRICE}}"   onclick="return confirm('정말 예매를 취소하시겠습니까? ')" class="btn btn-md btn--warning">예매 취소하기 <span class="hidden-sm"></span></a>
+                            </div>
                            
                     </div>
 
@@ -44,6 +47,11 @@
                		 </div>
                     
                     {% endfor %}
+                    {% else %}
+                    
+                    <p class="movie__option" style="margin-left: 3%;"><strong>예매내역이 없습니다. </strong></p>
+                    {% endif %}
+                    
                 </div>
             </div>
         </section>

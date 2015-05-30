@@ -61,8 +61,8 @@
                             <p class="movie__option"><strong>연령 : </strong><a href="#">{{movie.RATING}}</a></p>
 							<p class="movie__option"><strong>줄거리 : </strong><a href="#"><br><br>{{movie.SUMMARY}}</a></p>
                             <div class="movie__btns">
-                                <a href="/book/init" onclick="sessionStorage.setItem('movie','{{movie.MOVIECODE}}')" class="btn btn-md btn--warning">예약하기 <span class="hidden-sm"><small>이 영화를 예약하려면 클릭하세요.</small></span></a>
-                                <a href="/user/addWatchList?moviecode={{movie.MOVIECODE}}"  class="watchlist">워치리스트에 담기</a>
+                                <a href="/book/init" onclick="sessionStorage.setItem('movie','{{movie.MOVIECODE}}')" class="btn btn-md btn--warning">예매하기 <span class="hidden-sm"></span></a>
+                                <a href="/user/addWatchList?moviecode={{movie.MOVIECODE}}"  class="watchlist">관심 리스트에 담기</a>
                             </div>
 
                             <div class="preview-footer">

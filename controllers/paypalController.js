@@ -30,20 +30,19 @@ exports.paypalCreate = function (req, res) {
          },
       "amount": {
         "currency": reservationInfo.currency,
-        "total": (req.user? reservationInfo.discount_cost : reservationInfo.total_cost),
+        "total": (req.user? reservationInfo.discount_cost : reservationInfo.total_cost-reservationInfo.early_morning_fee),
       },
       "description": reservationInfo.choosen_sits.substr(0,reservationInfo.choosen_sits.length-2)
     }]
   };
  
+
+ 
  //회원인 경우 마일리지를 사용할경우에 정보대입
- if(req.user&&reservationInfo.using_mileage!=0) payment.transactions[0].item_list.items.push(
-		 {
-        	 name:'마일리지사용',
-        	 price:-reservationInfo.using_mileage,
-        	 currency:'USD',
-        	 quantity:1
-  });
+ if(req.user&&reservationInfo.using_mileage!=0) payment.transactions[0].item_list.items.push(new Item('마일리지사용',-reservationInfo.using_mileage,'USD',1));
+ 
+ //조조할인일 경우 정보대입
+ if(reservationInfo.early_morning_fee!=0) payment.transactions[0].item_list.items.push(new Item('조조할인',-reservationInfo.early_morning_fee,'USD',1))
   
   console.log(payment.transactions[0].item_list.items);
   if (method === 'paypal') {
@@ -147,3 +146,13 @@ exports.paypalExecute = function(req, res){
 	    }
 	  });
 };
+
+
+
+function Item(name, price, currency,quantity ){
+
+	this.name = name;
+	this.price = price;
+	this.currency = currency;
+	this.quantity = quantity;
+}

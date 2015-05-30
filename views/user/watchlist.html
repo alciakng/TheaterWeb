@@ -8,7 +8,7 @@
                 
                 <div class="row">
                 <div class="gallery-wrapper">
-                
+                {% if watchlists.length !=0 %}
                 {% for watchlist in watchlists %}
                     <div class="col-sm-4 col-md-3">
                         <div class="gallery-item">
@@ -22,6 +22,10 @@
                         </div>
                     </div>
 				{% endfor %}
+				{% else %}
+				
+				<p class="movie__option" style="margin-left: 4%;"><strong>워치리스트에 영화가 없습니다! </strong></p>
+				{% endif %}
                     
                 </div>
                 </div>

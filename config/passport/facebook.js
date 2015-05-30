@@ -6,6 +6,7 @@
 var FacebookStrategy = require('passport-facebook').Strategy;
 //dbConfig
 var dbConfig = config('dbconfig.js');
+
 //oracledb module
 var oracledb = require('oracledb');
 
@@ -14,9 +15,9 @@ var oracledb = require('oracledb');
  */
 
 module.exports = new FacebookStrategy({
-    clientID: "1439701713010669",
-    clientSecret: "d00af0f7c24d7921d6158d37d5f48481",
-    callbackURL: "/auth/facebook/callback"
+    clientID: envConfig.facebook.clientID,
+    clientSecret: envConfig.facebook.clientSecret,
+    callbackURL: envConfig.facebook.callbackURL
   },
   function(accessToken, refreshToken, profile, done) {
 	  
