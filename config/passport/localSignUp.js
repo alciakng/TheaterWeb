@@ -61,6 +61,7 @@ module.exports  = new LocalStrategy({
 		        									 console.log(err.message);
 		        									 return;
 		        								 }
+		        								 
 		        								 return done(null,req.body,req.flash('signUpMessage','회원가입성공'));	
 		        							 });
 		        							 

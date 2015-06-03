@@ -23,14 +23,14 @@ exports.paypalCreate = function (req, res) {
     	 "item_list": {
              "items": [{
             	 name:'좌석',
-            	 price:reservationInfo.screen_cost,
+            	 price:reservationInfo.screen_cost/1000,
             	 currency:'USD',
             	 quantity:reservationInfo.choosen_number
              }]
          },
       "amount": {
         "currency": reservationInfo.currency,
-        "total": (req.user? reservationInfo.discount_cost : reservationInfo.total_cost-reservationInfo.early_morning_fee),
+        "total": (req.user? reservationInfo.discount_cost/1000 : (reservationInfo.total_cost-reservationInfo.early_morning_fee)/1000),
       },
       "description": reservationInfo.choosen_sits.substr(0,reservationInfo.choosen_sits.length-2)
     }]

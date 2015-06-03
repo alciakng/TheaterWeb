@@ -26,6 +26,7 @@ exports.logout = function(req,res){
 
 //회원가입에 성공했을 때
 exports.successSignUp = function(req,res){
+	req.logout();
 	console.log("회원가입 성공");
 	res.send({signUpMessage : req.flash('signUpMessage'),
 		matching:"success"});

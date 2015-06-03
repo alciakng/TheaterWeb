@@ -165,11 +165,11 @@ $('#signUp-form').submit(function(e){
 		 
 		 if(data.matching=='success'){
 			self.children().fadeOut(300,function(){ $(this).remove() })
-			$('<p class="login__title">sign in <br><span class="login-edition">welcome to theater</span></p><p class="success">회원가입을 축하합니다.<br>메인 페이지로 이동합니다.</p>').appendTo(self)
+			$('<p class="login__title">sign in <br><span class="login-edition">welcome to theater</span></p><p class="success">회원가입을 축하합니다.<br>로그인 해주십시오.</p>').appendTo(self)
 			.hide().delay(300).fadeIn();
 			
 			window.setTimeout(function() {
-			    window.location.href = '/';
+			    window.location.href = '/login';
 			},2000);
 		 }
 		 else{

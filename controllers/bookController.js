@@ -98,7 +98,6 @@ exports.book2_seat = function(req,res){
 	var prevData = url_parts.query;
 	console.log(prevData);
 	
-
 	var seat_select_sql ="select * from SEAT,PERFORMANCE_SEAT where SEAT.SEATCODE=PERFORMANCE_SEAT.SEATCODE and SEAT.SCREENCODE=:screencode and PERFORMANCE_SEAT.TIMECODE=:timecode order by SEAT.SEATROW,LENGTH(SEAT.SEATCOL),SEAT.SEATCOL";
 	
 	//bind variables

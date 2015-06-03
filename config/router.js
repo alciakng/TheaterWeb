@@ -5,7 +5,7 @@ var movieController = controllers('movieController.js');
 var bookController = controllers('bookController.js');
 var userController = controllers('userController.js');
 var paypalController = controllers('paypalController.js');
-var managerController = controllers('managerController.js');
+
 
 //auth-middleware
 var auth = require('./middlewares/auth.js');

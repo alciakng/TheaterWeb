@@ -88,7 +88,7 @@
        			$('#use-mileage').bind('change keyup input',function(){
        				
        				
-       				if($(this).val()>{{req.user.MILEAGE}}) $(this).val(0);
+       				if($(this).val() > {{req.user.MILEAGE}}) $(this).val(0);
        				$('#discountPrice').text({{prevData.total_cost-prevData.early_morning_fee}}-$(this).val());
        				$('.discount_cost').val({{prevData.total_cost-prevData.early_morning_fee}}-$(this).val());
        				$('.using_mileage').val($(this).val());

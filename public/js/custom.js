@@ -769,7 +769,7 @@ function init_BookingTwo () {
 
 	        });
             $('.sits-area--mobile-wrap').append(temp);
-          
+           
 
             $(this).blur();
 
@@ -804,7 +804,7 @@ function init_BookingTwo () {
                 }
 
                 sum += screenCost;
-
+                sumTicket.val(sum);
                 $('.checked-result').text(sum);
 
                 
@@ -836,7 +836,7 @@ function init_BookingTwo () {
                         }
 
                         sum -= screenCost;
-
+                        sumTicket.val(sum);
                         $('.checked-result').text(sum);
                         
                     }
@@ -844,7 +844,7 @@ function init_BookingTwo () {
                     
 
             })
-            sumTicket.val(sum);
+            
         }
 
 
