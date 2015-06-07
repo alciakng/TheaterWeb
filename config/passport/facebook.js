@@ -23,7 +23,7 @@ module.exports = new FacebookStrategy({
 	  
 		  console.log(profile);
 		  var select = "select * from member where email =: email";
-		  var insert = "INSERT INTO MEMBER VALUES ( :email, :password,:name,to_date(:birth,'yyyy/mm/dd'),:sex,0,'D')";
+		  var insert = "INSERT INTO MEMBER VALUES (:email, :password,:name,to_date(:birth,'yyyy/mm/dd'),:sex,0,'D')";
 		  
 		  //date format change
 		  var date = new Date(profile._json.birthday);
