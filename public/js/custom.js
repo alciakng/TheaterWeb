@@ -517,6 +517,7 @@ function init_BookingOne() {
                   showOtherMonths: true,
                   selectOtherMonths: true,
                   showAnim:"fade",
+                  minDate: 0 ,
                   dateFormat:'yy-mm-dd',
                   //날짜 선택시 날짜에 해당하는 상영관과 시간정보를 ajax방식으로 가져온다.
                   onSelect: function(dateText) {

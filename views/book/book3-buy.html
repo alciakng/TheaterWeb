@@ -44,23 +44,26 @@
                 		 <li class="book-result__item">할인된 금액 :<span class="book-result__count booking-cost">{{reservationInfo.total_cost-reservationInfo.early_morning_fee+'원'}}</span></li>
                 		 {% endif %}
                 	   </ul>
+                	   
+                	  <h2 class="page-heading">결제수단 선택</h2>	
+	                	 <select placeholer="" id='choose-pay' class="login__input invalid_field">
+							  <option value='' disabled selected>결제수단을 선택하세요.</option>
+							  <option value='credit'>신용카드</option>
+							  <option value='no-account'>무통장입금</option>
+							  <option value='account-transfer'>계좌이체</option>
+							  <option value='phone'>핸드폰</option>
+					     </select>
+	                       
+	                <h2 class="page-heading">결제정보 입력</h2>       
+	                <form id="pay-info" method="post" novalidate="" class="form contact-info">
+                        
+                    </form>
+                    
                 </div>
-                {% if payment !=NULL %}
-	                {% if payment.payer.payment_method =='paypal' %}
-						{% for link in payment.links %}
-							{% if link.method == 'REDIRECT' %}
-								{% set redirectUrl = link.href %}
-							{% endif %}
-						{% endfor %}
-					{% endif %}
-			    {% endif %}
+              
                 
                 <div class="order">
-                	{% if payment!=NULL %}
-                    <a href="{{redirectUrl}}" class="btn btn-md btn--warning btn--wide">구매하기</a>
-                    {% else %}
-                    <a href="/book/final" class="btn btn-md btn--warning btn--wide">구매하기</a>
-                    {% endif %}
+                    <a href="/paypalExecute" onclick="return confirm('정말  예매(결제)하시겠습니까?')" class="btn btn-md btn--warning btn--wide">구매하기</a>
                 </div>
 
             </div>
@@ -80,4 +83,62 @@
         
         <div class="clearfix"></div>
         
+{% endblock %}
+
+{% block customScript %}
+<script>
+    $(function(){
+    	$('#choose-pay').change(function(){
+    		var option=$( "#choose-pay option:selected" ).val();
+    		
+    		switch(option){
+    		
+    		case 'credit' :
+    			
+    			$('#pay-info').empty();
+    			$('#pay-info').append('<div class="contact-info__field contact-info__field-mail">'+'<input type="cardnumber" name="cardnumber" placeholder="카드번호" class="form__mail">'+'</div>');
+    			$('#pay-info').append('<div class="contact-info__field contact-info__field-mail">'+'<input type="cardnumber" name="cardnumber" placeholder="cvc번호" class="form__mail">'+'</div>');
+    			$('#pay-info').append('<div class="contact-info__field contact-info__field-mail">'+'<input type="cardnumber" name="cardnumber" placeholder="비밀번호" class="form__mail">'+'</div>');	
+    			$('#pay-info').append('<div class="contact-info__field contact-info__field-mail">'+'<input type="cardnumber" name="cardnumber" placeholder="유효기간" class="form__mail">'+'</div>');	  
+    			break;
+    		case 'no-account' :
+    			$('#pay-info').empty();
+    			$('#pay-info').append(
+    			'<ul class="book-result">'+
+               ' <li class="book-result__item">영화 : <span class="book-result__count booking-ticket">국민은행</span></li>'+
+               ' <li class="book-result__item">상영관 : <span class="book-result__count booking-price">642202-04-029049</span></li>'+
+                '</ul>'
+    			)
+    			break;
+    			
+    		case 'account-transfer' :
+    			$('#pay-info').empty();
+    			$('#pay-info').append('<select placeholer="" class="login__input invalid_field">'+
+    					  "<option value='' disabled selected>은행을 선택하세요</option>"+
+    					  "<option value='credit'>신한은행</option>"+
+    					  "<option value='no_account'>국민은행</option>"+
+    					  "<option value='account-transfer'>기업은행</option>"+
+    					  "<option value='phone'>우리은행</option>"+
+    			     '</select><br><br>');
+    			$('#pay-info').append('<div class="contact-info__field contact-info__field-mail">'+'<input type="cardnumber" name="cardnumber" placeholder="계좌번호" class="form__mail">'+'</div>');
+    			break;
+    			
+    		case 'phone' :
+    			$('#pay-info').empty();
+    			$('#pay-info').append('<select placeholer="" class="login__input invalid_field">'+
+				  "<option value='' disabled selected>통신사를 선택하세요</option>"+
+				  "<option value='credit'>kt</option>"+
+				  "<option value='no_account'>skt</option>"+
+				  "<option value='account-transfer'>lgt</option>"+
+				  "<option value='phone'>알뜰폰</option>"+
+		     '</select><br><br>');
+    			$('#pay-info').append('<div class="contact-info__field contact-info__field-mail">'+'<input type="cardnumber" name="cardnumber" placeholder="휴대폰 번호" class="form__mail">'+'</div>');
+    			break;
+    		}
+    		
+    	})
+    	
+    })
+
+</script>
 {% endblock %}
