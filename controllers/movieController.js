@@ -108,6 +108,7 @@ exports.getMovieInfo =function(req,res){
 	
 	var moviecode = req.param('moviecode');
 	var select_movie_info = "select to_char(avg(r.score),'fm90.0') as avgscore ,count(r.moviecode) as votes,r.moviecode,m.name,m.genre,m.runningtime,m.director,m.rating,m.company,m.country,m.image,m.summary,m.actors,to_char(m.opendate, 'yy-mm-dd') as open_date from movie m,rating r where m.moviecode=r.moviecode and m.moviecode =:moviecode group by r.moviecode,m.name,m.genre,m.runningtime,m.director,m.rating,m.company,m.country,m.image,m.opendate,m.summary,m.actors";
+	var select_moviepicture = "select * from moviepicture where MOVIECODE=:moviecode";
 	var select_reply = "select m.name,m.password,r.reply from reply r,member m where r.email=m.email and r.moviecode=:moviecode";
 	
 	
@@ -132,6 +133,11 @@ exports.getMovieInfo =function(req,res){
 							 console.error(err.message);
 							 return;
 						 }
+						 connection.execute(select_moviepicture,bindvars,{outFormat:oracledb.OBJECT},function(err,result3){
+							 if(err){
+								 console.error(err.message);
+								 return;
+							 }
 						 
 						 connection.release(function(err){
 							 if(err){
@@ -139,7 +145,10 @@ exports.getMovieInfo =function(req,res){
 								 return;
 							 }
 							 console.log(result1.rows+result2.rows);
-							 res.render('movie/movieInfo',{movieInfo:result1.rows[0],replys:result2.rows}); 
+							 console.log(result3.rows)
+							 res.render('movie/movieInfo',{movieInfo:result1.rows[0],replys:result2.rows,moviepictures:result3.rows}); 
+						 });
+						 
 						 });
 						 
 					 });

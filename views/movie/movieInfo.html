@@ -54,74 +54,15 @@
                         <div class="swiper-container">
                           <div class="swiper-wrapper" style="width: 2366.66666666667px; height: 120px;">
                               <!--First Slide-->
+                              
+                              {% for moviepicture in moviepictures %}
                               <div class="swiper-slide media-video swiper-slide-visible swiper-slide-active" style="width: 236.666666666667px; height: 120px; margin-left: -1px;">
-                                <a href="https://www.youtube.com/watch?v=Y5AehBA3IsE" class="movie__media-item ">
-                                     <img alt="" src="http://placehold.it/400x240">
+                                <a href="#" class="movie__media-item ">
+                                     <img alt="" src="{{'/image/'+moviepicture.IMAGE}}">
                                 </a>
                               </div>
-                              
-                              <!--Second Slide-->
-                              <div class="swiper-slide media-video swiper-slide-visible" style="width: 236.666666666667px; height: 120px;">
-                                <a href="https://www.youtube.com/watch?v=Kb3ykVYvT4U" class="movie__media-item">
-                                    <img alt="" src="http://placehold.it/400x240">
-                                </a>
-                              </div>
-                              
-                              <!--Third Slide-->
-                              <div class="swiper-slide media-photo swiper-slide-visible" style="width: 236.666666666667px; height: 120px;"> 
-                                    <a href="http://placehold.it/2100x1250" class="movie__media-item">
-                                        <img alt="" src="http://placehold.it/400x240">
-                                     </a>
-                              </div>
-
-                              <!--Four Slide-->
-                              <div class="swiper-slide media-photo swiper-slide-visible" style="width: 236.666666666667px; height: 120px;"> 
-                                    <a href="http://placehold.it/2100x1250" class="movie__media-item">
-                                        <img alt="" src="http://placehold.it/400x240">
-                                     </a>
-                              </div>
-
-                              <!--Slide-->
-                              <div class="swiper-slide media-photo swiper-slide-visible" style="width: 236.666666666667px; height: 120px;"> 
-                                    <a href="http://placehold.it/2100x1250" class="movie__media-item">
-                                        <img alt="" src="http://placehold.it/400x240">
-                                     </a>
-                              </div>
-
-                              <!--Slide-->
-                              <div class="swiper-slide media-photo" style="width: 236.666666666667px; height: 120px;"> 
-                                    <a href="http://placehold.it/2100x1250" class="movie__media-item">
-                                        <img alt="" src="http://placehold.it/400x240">
-                                     </a>
-                              </div>
-
-                              <!--First Slide-->
-                              <div class="swiper-slide media-video" style="width: 236.666666666667px; height: 120px;">
-                                <a href="https://www.youtube.com/watch?v=Y5AehBA3IsE" class="movie__media-item ">
-                                     <img alt="" src="http://placehold.it/400x240">
-                                </a>
-                              </div>
-                              
-                              <!--Second Slide-->
-                              <div class="swiper-slide media-video" style="width: 236.666666666667px; height: 120px;">
-                                <a href="https://www.youtube.com/watch?v=Kb3ykVYvT4U" class="movie__media-item">
-                                    <img alt="" src="http://placehold.it/400x240">
-                                </a>
-                              </div>
-
-                              <!--Slide-->
-                              <div class="swiper-slide media-photo" style="width: 236.666666666667px; height: 120px;"> 
-                                    <a href="http://placehold.it/2100x1250" class="movie__media-item">
-                                        <img alt="" src="http://placehold.it/400x240">
-                                     </a>
-                              </div>
-
-                              <!--Slide-->
-                              <div class="swiper-slide media-photo" style="width: 236.666666666667px; height: 120px;"> 
-                                    <a href="http://placehold.it/2100x1250" class="movie__media-item">
-                                        <img alt="" src="http://placehold.it/400x240">
-                                     </a>
-                              </div>
+                              {% endfor %}
+                             
                         
                           </div>
                         </div>
