@@ -4,14 +4,6 @@
 
 DB Modeling & Movie Reservation Web Site 
 
-### Tools
-
-Created with [Nodeclipse](https://github.com/Nodeclipse/nodeclipse-1)
- ([Eclipse Marketplace](http://marketplace.eclipse.org/content/nodeclipse), [site](http://www.nodeclipse.org))   
-
-Nodeclipse is free open-source project that grows with your contributions.
-
-
 ## 설계서 
 
 ![영화예매 시스템 설계서_page-0001](https://github.com/user-attachments/assets/60b00e29-f5aa-4025-876a-38b5b735094d)
