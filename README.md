@@ -2,15 +2,7 @@
 
 # TheaterWeb
 
-http://52.68.108.244:3000/
-
-## Usage
-
-
-
-## Developing
-
-
+DB Modeling & Movie Reservation Web Site 
 
 ### Tools
 
